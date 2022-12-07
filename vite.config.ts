@@ -3,6 +3,7 @@ import { defineConfig, loadEnv } from 'vite'
 import type { ConfigEnv } from 'vite'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 // https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv) => {
@@ -12,6 +13,11 @@ export default ({ command, mode }: ConfigEnv) => {
   return defineConfig({
     plugins: [
       react(),
+      createSvgIconsPlugin({
+        iconDirs: [resolve(process.cwd(), 'src/icons')],
+        symbolId: 'icon-[dir]-[name]',
+        customDomId: '__svg__icons__dom__'
+      }),
       AutoImport({
         imports: ['react', 'react-router-dom'],
         dts: './src/auto-imports.d.ts',

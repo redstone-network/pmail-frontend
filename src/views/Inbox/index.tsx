@@ -1,11 +1,11 @@
 import React from 'react'
 
-function About() {
+function Inbox() {
   return (
     <div>
-      <h1>about</h1>
+      <h1>Inbox</h1>
     </div>
   )
 }
 
-export default About
+export default Inbox

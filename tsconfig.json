@@ -22,7 +22,8 @@
       "@views/*": ["src/views/*"],
       "@store/*": ["src/store/*"],
       "@hooks/*": ["src/hooks/*"]
-    }
+    },
+    "types": ["vite-plugin-svg-icons/client"]
   },
   "include": ["src"],
   "exclude": ["node_modules"],
