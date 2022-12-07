@@ -1,5 +1,5 @@
 function Home(): JSX.Element {
-  return <div>home</div>
+  return <div>Compose</div>
 }
 
 export default Home

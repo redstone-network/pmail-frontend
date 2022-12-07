@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import 'virtual:svg-icons-register'
 
-import './index.css'
+import '@/styles/index.css'
 import App from './App'
 import { store } from './store'
 

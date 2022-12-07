@@ -1,3 +1,4 @@
+@import './theme.css';
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -15,13 +16,4 @@
   .titlebar {
     -webkit-app-region: drag;
   }
-}
-:root {
-  --main-bg-color: #F0F0F0;
-  --side-bg-color: #1A1A1A;
-  --active-side-bg-color: #21207A;
-  --hover-side-bg-color: #1D1C40;
-  --main-text-color: #A1A1A1;
-  --white: #fff;
-  --gray: '#949494'
 }

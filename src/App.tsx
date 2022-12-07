@@ -3,7 +3,7 @@ import Index from '@/router'
 export default function App() {
   return (
     <div>
-      <div className="text-primary-text bg-background">
+      <div className="h-screen w-screen bg-background">
         <Index />
       </div>
     </div>

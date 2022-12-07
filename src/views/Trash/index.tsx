@@ -1,5 +1,5 @@
 function Home(): JSX.Element {
-  return <div>home</div>
+  return <div>Trash</div>
 }
 
 export default Home

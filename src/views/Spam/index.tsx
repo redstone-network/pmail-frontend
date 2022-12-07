@@ -1,5 +1,5 @@
 function Home(): JSX.Element {
-  return <div>home</div>
+  return <div>spam</div>
 }
 
 export default Home

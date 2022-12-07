@@ -6,11 +6,15 @@ module.exports = {
       background: 'var(--main-bg-color)',
       SideBarBackground: 'var(--side-bg-color)',
       SideBarText: 'var(--main-text-color)',
+      mainText: 'var(--main-text-color)',
+      blackText: 'var(--black-text-color)',
+      whiteText: 'var(--white-text-color)',
       SideBarActiveBackground: 'var(--active-side-bg-color)',
       sideBarHoverBackground: 'var(--hover-side-bg-color)',
       white: 'var(--white)',
       gray: 'var(--gray)',
-      blue: '#2423B5'
+      blue: '#2423B5',
+      primary: '#D62EFF'
     },
     extend: {
       spacing: {
@@ -21,5 +25,5 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [require('tailwind-scrollbar')]
 }
