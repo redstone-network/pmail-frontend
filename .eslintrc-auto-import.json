@@ -6,13 +6,10 @@
     "Outlet": true,
     "Route": true,
     "Routes": true,
-    "account": true,
-    "counterSlice": true,
     "createRef": true,
     "forwardRef": true,
     "lazy": true,
     "memo": true,
-    "selectCount": true,
     "startTransition": true,
     "store": true,
     "useAppDispatch": true,
@@ -43,6 +40,8 @@
     "useSearchParams": true,
     "useState": true,
     "useSyncExternalStore": true,
-    "useTransition": true
+    "useTransition": true,
+    "user": true,
+    "userSlice": true
   }
 }

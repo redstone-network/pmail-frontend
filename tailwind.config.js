@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{vue,js,ts,jsx,tsx}',
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+  ],
   theme: {
     colors: {
       background: 'var(--main-bg-color)',
@@ -12,9 +16,12 @@ module.exports = {
       SideBarActiveBackground: 'var(--active-side-bg-color)',
       sideBarHoverBackground: 'var(--hover-side-bg-color)',
       white: 'var(--white)',
-      gray: 'var(--gray)',
-      blue: '#2423B5',
+      borderGray: 'var(--gray)',
+      textBlue: '#2423B5',
       primary: '#D62EFF'
+    },
+    container: {
+      center: true
     },
     extend: {
       spacing: {
@@ -25,5 +32,9 @@ module.exports = {
       }
     }
   },
-  plugins: [require('tailwind-scrollbar')]
+  plugins: [
+    require('tailwind-scrollbar'),
+    require('@tailwindcss/forms'),
+    require('flowbite/plugin')
+  ]
 }

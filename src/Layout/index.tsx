@@ -8,8 +8,24 @@ import trash from '@/icons/trash.png'
 import logOut from '@/icons/logout.png'
 import account from '@assets/account.png'
 import { Outlet, NavLink } from 'react-router-dom'
+import { useAppSelector, useAppDispatch } from '@store/hooks'
+import { setName, setId } from '@/store/user'
 
 const Layout = (): JSX.Element => {
+  const user = useAppSelector((state) => state.user)
+  const Navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    if (!user.name) {
+      Navigate('/login')
+    }
+  })
+  const doLogout = () => {
+    dispatch(setName(''))
+    dispatch(setId(''))
+    Navigate('/login')
+  }
+
   const menus = [
     {
       icon: compose,
@@ -84,22 +100,23 @@ const Layout = (): JSX.Element => {
             </div>
           </div>
           <div className="px-6">
-            <div className="mb-4 flex items-center border-t border-gray pt-4">
+            <div className="mb-4 flex items-center border-t border-borderGray pt-4">
               <div className="mr-3 h-50 w-50 rounded-full">
                 <img src={account} alt="" />
               </div>
               <div>
-                <div className="mb-1 w-36 truncate text-white">My account</div>
-                <div className="w-36 truncate">
-                  5GBNLQbbTZSog5GBNLQbbTZSog5GBNLQbbTZSog
-                </div>
+                <div className="mb-1 w-36 truncate text-white">{user.name}</div>
+                <div className="w-36 truncate">{user.id}</div>
               </div>
             </div>
-            <div className="mb-10 flex cursor-pointer items-center">
+            <div
+              onClick={doLogout}
+              className="mb-10 flex cursor-pointer items-center"
+            >
               <div className="mr-5 h-5 w-5">
                 <img src={logOut} alt="" />
               </div>
-              <div className="text-blue">Log Out</div>
+              <div className="text-textBlue">Log Out</div>
             </div>
           </div>
         </div>

@@ -10,12 +10,17 @@ import Sent from '@/views/Sent'
 import Spam from '@/views/Spam'
 import Trash from '@/views/Trash'
 import Drafts from '@/views/Drafts'
+import Login from '@/views/Login'
 
 export default function Router() {
   return useRoutes([
     {
       path: 'home',
       element: <Home />
+    },
+    {
+      path: 'login',
+      element: <Login />
     },
     {
       path: '/',
