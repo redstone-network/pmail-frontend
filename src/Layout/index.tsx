@@ -36,7 +36,7 @@ const Layout = (): JSX.Element => {
     {
       icon: inbox,
       name: 'Inbox',
-      href: '/inbox',
+      href: '/',
       value: 0
     },
     {

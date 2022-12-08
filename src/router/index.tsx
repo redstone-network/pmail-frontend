@@ -1,5 +1,4 @@
-import { useRoutes } from 'react-router-dom'
-
+import { Route, Routes } from 'react-router-dom'
 import Layout from '@/Layout/index'
 import NotFund from '@/Layout/NotFound'
 
@@ -13,48 +12,19 @@ import Drafts from '@/views/Drafts'
 import Login from '@/views/Login'
 
 export default function Router() {
-  return useRoutes([
-    {
-      path: 'home',
-      element: <Home />
-    },
-    {
-      path: 'login',
-      element: <Login />
-    },
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          path: 'inbox',
-          element: <Inbox />
-        },
-        {
-          path: 'compose',
-          element: <Compose />
-        },
-        {
-          path: 'sent',
-          element: <Sent />
-        },
-        {
-          path: 'spam',
-          element: <Spam />
-        },
-        {
-          path: 'trash',
-          element: <Trash />
-        },
-        {
-          path: 'drafts',
-          element: <Drafts />
-        }
-      ]
-    },
-    {
-      path: '*',
-      element: <NotFund />
-    }
-  ])
+  return (
+    <Routes>
+      <Route path="home" element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Inbox />} />
+        <Route path="compose" element={<Compose />} />
+        <Route path="sent" element={<Sent />} />
+        <Route path="spam" element={<Spam />} />
+        <Route path="trash" element={<Trash />} />
+        <Route path="drafts" element={<Drafts />} />
+      </Route>
+      <Route path="*" element={<NotFund />} />
+    </Routes>
+  )
 }
