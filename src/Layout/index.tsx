@@ -122,7 +122,7 @@ const Layout = (): JSX.Element => {
         </div>
       </div>
       <div className="flex-1 px-5 py-8">
-        <div className="h-full w-full overflow-hidden bg-white">
+        <div className="h-full w-full overflow-hidden ">
           <Outlet />
         </div>
       </div>

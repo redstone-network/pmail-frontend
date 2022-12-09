@@ -13,6 +13,7 @@ module.exports = {
       mainText: 'var(--main-text-color)',
       blackText: 'var(--black-text-color)',
       whiteText: 'var(--white-text-color)',
+      grayText: '#B3B3B3',
       SideBarActiveBackground: 'var(--active-side-bg-color)',
       sideBarHoverBackground: 'var(--hover-side-bg-color)',
       white: 'var(--white)',
@@ -32,9 +33,5 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-    require('@tailwindcss/forms'),
-    require('flowbite/plugin')
-  ]
+  plugins: [require('tailwind-scrollbar'), require('flowbite/plugin')]
 }
