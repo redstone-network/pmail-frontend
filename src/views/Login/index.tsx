@@ -1,8 +1,14 @@
-import { Label, TextInput, Button } from 'flowbite-react'
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import { setName, setId } from '@/store/user'
 import { useAppDispatch } from '@store/hooks'
 import { useNavigate } from 'react-router-dom'
-import logo from '@assets/logo.png'
+import logo from '@assets/PMaiLogo.png'
+import text from '@assets/text.png'
+import media from '@assets/media.png'
+import discord from '@assets/discord.png'
+import telegram from '@assets/telegram.png'
+import twitter from '@assets/twitter.png'
+import Polkadotlogo from '@assets/Polkadotlogo.png'
 
 function Login() {
   const Navigate = useNavigate()
@@ -18,37 +24,26 @@ function Login() {
   }
 
   return (
-    <div className="flex h-full w-full items-center justify-center bg-SideBarBackground">
-      <div className="flex w-1/2 flex-col">
+    <div className="flex h-full w-full items-center justify-center bg-white bg-hero-pattern bg-contain	 bg-center	 bg-no-repeat	">
+      <div className="mx-auto flex h-full w-951 flex-col items-center justify-between">
         <div>
-          <img className="mx-auto w-117" src={logo} alt="" />
-        </div>
-        <div className="mb-4">
-          <div className="mb-2 block text-whiteText">
-            <Label htmlFor="email1" value="Your count" />
+          <div className="pt-16">
+            <img className="mx-auto w-256" src={logo} alt="" />
           </div>
-          <TextInput
-            type="email"
-            value={name}
-            onChange={(e) => changeName(e.target.value)}
-            placeholder="name@flowbite.com"
-            required={true}
-          />
-        </div>
-        <div className="mb-8">
-          <div className="mb-2 block">
-            <Label htmlFor="password1" value="Your password" />
+          <div className="pt-12">
+            <img className="mx-auto w-363" src={text} alt="" />
           </div>
-          <TextInput
-            onChange={(e) => changeId(e.target.value)}
-            value={id}
-            type="password"
-            required={true}
-          />
+          <div className="mx-auto mt-20 flex w-44  rounded-full	 bg-grayBtnBackground  bg-opacity-40 py-3 px-2 text-center">
+            <img className="mr-4 h-6 w-6" src={Polkadotlogo} alt="" />
+            <button>Connect Wallet</button>
+          </div>
         </div>
-        <Button type="submit" onClick={submit}>
-          Submit
-        </Button>
+        <div className="flex pb-20">
+          <img className="mr-7 h-7 w-7" src={twitter} alt="" />
+          <img className="mr-7 h-7 w-7" src={discord} alt="" />
+          <img className="mr-7 h-7 w-7" src={media} alt="" />
+          <img className="h-7 w-7" src={telegram} alt="" />
+        </div>
       </div>
     </div>
   )

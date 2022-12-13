@@ -17,3 +17,6 @@
     -webkit-app-region: drag;
   }
 }
+.btn {
+  @apply px-2 py-3 rounded bg-gray-100 mr-4;
+}

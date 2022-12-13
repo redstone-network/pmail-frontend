@@ -10,7 +10,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'pmail',
   storage,
-  blacklist: ['page404']
+  whitelist: ['user']
 }
 const persistedReducer = persistReducer(persistConfig, reducers)
 

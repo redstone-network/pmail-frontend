@@ -14,6 +14,7 @@ module.exports = {
       blackText: 'var(--black-text-color)',
       whiteText: 'var(--white-text-color)',
       grayText: '#B3B3B3',
+      grayBtnBackground: 'var(--gray-gray-btn)',
       SideBarActiveBackground: 'var(--active-side-bg-color)',
       sideBarHoverBackground: 'var(--hover-side-bg-color)',
       white: 'var(--white)',
@@ -29,7 +30,12 @@ module.exports = {
         256: '256px',
         117: '117px',
         236: '236px',
-        50: '50px'
+        50: '50px',
+        951: '951px',
+        363: '363px'
+      },
+      backgroundImage: {
+        'hero-pattern': "url('/src/assets/background.png')"
       }
     }
   },

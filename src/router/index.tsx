@@ -10,6 +10,7 @@ import Spam from '@/views/Spam'
 import Trash from '@/views/Trash'
 import Drafts from '@/views/Drafts'
 import Login from '@/views/Login'
+import ShowMail from '@/views/ShowMail'
 
 export default function Router() {
   return (
@@ -18,6 +19,7 @@ export default function Router() {
       <Route path="login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Inbox />} />
+        <Route path="showMail/:id" element={<ShowMail />} />
         <Route path="compose" element={<Compose />} />
         <Route path="sent" element={<Sent />} />
         <Route path="spam" element={<Spam />} />
