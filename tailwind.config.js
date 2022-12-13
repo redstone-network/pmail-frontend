@@ -19,7 +19,8 @@ module.exports = {
       sideBarHoverBackground: 'var(--hover-side-bg-color)',
       white: 'var(--white)',
       borderGray: 'var(--gray)',
-      textBlue: '#2423B5',
+      textBlue: '#2D69D2',
+      textBlack: '#000000',
       primary: '#D62EFF'
     },
     container: {

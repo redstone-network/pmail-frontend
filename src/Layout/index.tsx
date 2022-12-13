@@ -65,11 +65,11 @@ const Layout = (): JSX.Element => {
     }
   ]
   return (
-    <div className="flex h-screen w-screen overflow-hidden	bg-background">
-      <div className="h-screen w-256 flex-none overflow-hidden  bg-SideBarBackground text-SideBarText">
-        <div className="flex h-full	flex-col justify-between">
+    <div className="flex w-screen h-screen overflow-hidden bg-background">
+      <div className="flex-none h-screen overflow-hidden w-256 bg-SideBarBackground text-SideBarText">
+        <div className="flex flex-col justify-between h-full">
           <div>
-            <div className="pl-6 pt-12">
+            <div className="pt-12 pl-6">
               <img className="w-117" src={logo} alt="logo" />
             </div>
             <div className="pt-12">
@@ -88,7 +88,7 @@ const Layout = (): JSX.Element => {
                     }}
                   >
                     <div className="flex items-center ">
-                      <img className="mx-4 h-5 w-5" src={item.icon} alt="" />
+                      <img className="w-5 h-5 mx-4" src={item.icon} alt="" />
                       <div>{item.name}</div>
                     </div>
                     {item.value ? (
@@ -100,20 +100,20 @@ const Layout = (): JSX.Element => {
             </div>
           </div>
           <div className="px-6">
-            <div className="mb-4 flex items-center border-t border-borderGray pt-4">
-              <div className="mr-3 h-50 w-50 rounded-full">
+            <div className="flex items-center pt-4 mb-4 border-t border-borderGray">
+              <div className="mr-3 rounded-full h-50 w-50">
                 <img src={account} alt="" />
               </div>
               <div>
-                <div className="mb-1 w-36 truncate text-white">{user.name}</div>
-                <div className="w-36 truncate">{user.id}</div>
+                <div className="mb-1 text-white truncate w-36">{user.name}</div>
+                <div className="truncate w-36">{user.id}</div>
               </div>
             </div>
             <div
               onClick={doLogout}
-              className="mb-10 flex cursor-pointer items-center"
+              className="flex items-center mb-10 cursor-pointer"
             >
-              <div className="mr-5 h-5 w-5">
+              <div className="w-5 h-5 mr-5">
                 <img src={logOut} alt="" />
               </div>
               <div className="text-textBlue">Log Out</div>
@@ -122,7 +122,7 @@ const Layout = (): JSX.Element => {
         </div>
       </div>
       <div className="flex-1 px-5 py-8">
-        <div className="h-full w-full overflow-hidden ">
+        <div className="w-full h-full overflow-hidden ">
           <Outlet />
         </div>
       </div>
