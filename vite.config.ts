@@ -5,7 +5,6 @@ import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
-// https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv) => {
   const currentEnv = loadEnv(mode, process.cwd())
   console.log('当前模式', command)
@@ -37,6 +36,14 @@ export default ({ command, mode }: ConfigEnv) => {
         '@views': resolve(__dirname, './src/views'),
         '@assets': resolve(__dirname, './src/assets'),
         '@hooks': resolve(__dirname, './src/hooks')
+      }
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://8.210.129.201:8887',
+          changeOrigin: true
+        }
       }
     },
     css: {

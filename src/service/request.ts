@@ -1,10 +1,10 @@
-import Axios, { AxiosInstance } from 'axios'
+import Axios from 'axios'
 
 const axios = Axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + '',
-  timeout: 10000,
+  baseURL: import.meta.env.VITE_BASE_URL,
+  timeout: 100000,
   headers: {
-    'Content-Type': 'text/plain'
+    'Content-Type': 'application/json'
   }
 })
 

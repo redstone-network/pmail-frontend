@@ -40,7 +40,7 @@ export async function bindMail(name: string) {
 
   return new Promise((resolve) => {
     api.tx.mail
-      .bindAddress(name)
+      .bindAddress(name + '@pmailbox.org')
       .signAndSend(
         User.address,
         { signer: injector.signer },
