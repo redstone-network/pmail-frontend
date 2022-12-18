@@ -4,16 +4,14 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import 'virtual:svg-icons-register'
 import 'flowbite'
-import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import '@/styles/index.css'
 import App from './App'
-import store from './store'
+import { store, persistor } from './store'
 
 const container = document.getElementById('root') as HTMLDivElement
 const root = createRoot(container)
-const persistor = persistStore(store)
 
 root.render(
   <React.StrictMode>

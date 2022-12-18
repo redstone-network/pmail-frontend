@@ -1,3 +1,10 @@
 .ql-container {
   min-height: 300px;
+  border: none;
+}
+.ql-toolbar.ql-snow{
+  border: none;
+}
+.ql-container.ql-snow{
+  border: none;
 }

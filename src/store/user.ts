@@ -3,12 +3,14 @@ import type { RootState } from './index'
 
 interface UserState {
   name: string
-  id: string
+  address: string
+  mail: string
 }
 
 const initialState: UserState = {
   name: '',
-  id: ''
+  address: '',
+  mail: ''
 }
 export const userSlice = createSlice({
   name: 'user',
@@ -17,13 +19,16 @@ export const userSlice = createSlice({
     setName: (state, action: PayloadAction<string>) => {
       state.name = action.payload
     },
-    setId: (state, action: PayloadAction<string>) => {
-      state.id = action.payload
+    setAddress: (state, action: PayloadAction<string>) => {
+      state.address = action.payload
+    },
+    setMail: (state, action: PayloadAction<string>) => {
+      state.mail = action.payload
     }
   }
 })
 
-export const { setName, setId } = userSlice.actions
+export const { setName, setAddress, setMail } = userSlice.actions
 
 export const user = (state: RootState) => state.user.name
 

@@ -8,8 +8,8 @@ import trash from '@/icons/trash.png'
 import logOut from '@/icons/logout.png'
 import account from '@assets/account.png'
 import { Outlet, NavLink } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '@store/hooks'
-import { setName, setId } from '@/store/user'
+import { useAppSelector, useAppDispatch } from '@/hooks'
+import { setName, setAddress } from '@/store/user'
 
 const Layout = (): JSX.Element => {
   const user = useAppSelector((state) => state.user)
@@ -22,7 +22,7 @@ const Layout = (): JSX.Element => {
   })
   const doLogout = () => {
     dispatch(setName(''))
-    dispatch(setId(''))
+    dispatch(setAddress(''))
     Navigate('/login')
   }
 
@@ -106,7 +106,7 @@ const Layout = (): JSX.Element => {
               </div>
               <div>
                 <div className="mb-1 text-white truncate w-36">{user.name}</div>
-                <div className="truncate w-36">{user.id}</div>
+                <div className="truncate w-36">{user.address}</div>
               </div>
             </div>
             <div

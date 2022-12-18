@@ -20,6 +20,8 @@ module.exports = {
       white: 'var(--white)',
       borderGray: 'var(--gray)',
       textBlue: '#2D69D2',
+      btnBlue: '#2526D9',
+      btnHoverBlue: '#1D1D9E',
       textBlack: '#000000',
       primary: '#D62EFF'
     },
