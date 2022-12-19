@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/classnames-order */
 import { BsReply, BsTrash } from 'react-icons/bs'
 import Account from '@/assets/account.png'
 

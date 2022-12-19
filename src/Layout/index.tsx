@@ -1,10 +1,7 @@
 import logo from '@/assets/logo.png'
 import compose from '@/icons/compose.png'
-import drafts from '@/icons/drafts.png'
 import inbox from '@/icons/inbox.png'
 import sent from '@/icons/sent.png'
-import spam from '@/icons/spam.png'
-import trash from '@/icons/trash.png'
 import contacts from '@/icons/contacts.png'
 import logOut from '@/icons/logout.png'
 import account from '@assets/account.png'
@@ -47,24 +44,6 @@ const Layout = (): JSX.Element => {
       href: '/sent',
       value: 0
     },
-    // {
-    //   icon: drafts,
-    //   name: 'Drafts',
-    //   href: '/drafts',
-    //   value: 0
-    // },
-    // {
-    //   icon: spam,
-    //   name: 'Spam',
-    //   href: '/spam',
-    //   value: 0
-    // },
-    // {
-    //   icon: trash,
-    //   name: 'Trash',
-    //   href: '/trash',
-    //   value: 0
-    // },
     {
       icon: contacts,
       name: 'Contracts',
