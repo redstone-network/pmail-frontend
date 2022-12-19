@@ -17,10 +17,14 @@ function MailList() {
     if (data && data?.mails) {
       const { nodes, totalCount } = data.mails
       console.log(nodes, totalCount, mailListData)
-      const res = []
+      const res = [...mailListData, ...nodes]
       setMailListData(res)
-      setHasMore(totalCount !== mailListData.length)
+      setHasMore(totalCount !== res.length)
     }
+  }
+  const Navigate = useNavigate()
+  const ShowMail = (hash: string) => {
+    Navigate(`/mail/${hash}`)
   }
   useEffect(() => {
     fetchData()
@@ -43,6 +47,7 @@ function MailList() {
           {mailListData.map((item) => (
             <div
               key={item.hash}
+              onClick={() => ShowMail(item.hash)}
               className="flex items-center py-2 transition-all border-b border-solid cursor-pointer mail-item"
             >
               <div className="w-40 mr-4 truncate shrink-0">

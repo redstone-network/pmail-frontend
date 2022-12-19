@@ -17,7 +17,7 @@ export default function Router() {
       <Route path="login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Inbox />} />
-        <Route path="showMail/:id" element={<ShowMail />} />
+        <Route path="mail/:id" element={<ShowMail />} />
         <Route path="compose" element={<Compose />} />
         <Route path="sent" element={<Sent />} />
         <Route path="contracts" element={<Contracts />} />
