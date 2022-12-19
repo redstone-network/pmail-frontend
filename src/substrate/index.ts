@@ -36,16 +36,16 @@ export async function getChainInfo() {
 
 export async function bindMail(name: string) {
   await web3Enable(appName)
+  console.log('user address', User.address)
   const injector = await web3FromAddress(User.address)
 
   return new Promise((resolve) => {
     api.tx.mail
-      .bindAddress(name + '@pmailbox.org')
+      .bindAddress(name)
       .signAndSend(
         User.address,
         { signer: injector.signer },
         ({ events = [], status }) => {
-          console.log(222)
           if (status.isFinalized) {
             resolve(true)
             events.forEach(({ phase, event: { data, method, section } }) => {
@@ -57,4 +57,61 @@ export async function bindMail(name: string) {
         }
       )
   })
+}
+export async function doSetAlias(accountObj: any, alias: string) {
+  await web3Enable(appName)
+  const injector = await web3FromAddress(User.address)
+
+  return new Promise((resolve) => {
+    api.tx.mail
+      .setAlias(accountObj, alias)
+      .signAndSend(
+        User.address,
+        { signer: injector.signer },
+        ({ events = [], status }) => {
+          if (status.isFinalized) {
+            resolve(true)
+            events.forEach(({ phase, event: { data, method, section } }) => {
+              console.log(
+                `${phase.toString()} : ${section}.${method} ${data.toString()}`
+              )
+            })
+          }
+        }
+      )
+  })
+}
+export async function sendMailBlock(
+  MailAddress: { [key: string]: string },
+  uint: number,
+  vec: string
+) {
+  await web3Enable(appName)
+  const injector = await web3FromAddress(User.address)
+
+  return new Promise((resolve) => {
+    console.log(MailAddress, uint, vec)
+    api.tx.mail
+      .sendMail(MailAddress, uint, vec)
+      .signAndSend(
+        User.address,
+        { signer: injector.signer },
+        ({ events = [], status }) => {
+          if (status.isFinalized) {
+            console.log('send mail success')
+            resolve(true)
+            events.forEach(({ phase, event: { data, method, section } }) => {
+              console.log(
+                `${phase.toString()} : ${section}.${method} ${data.toString()}`
+              )
+            })
+          }
+        }
+      )
+  })
+}
+
+export async function getMail(accountId: string) {
+  const res = await api.query.mail.mailMap(accountId)
+  return res.toHuman()
 }

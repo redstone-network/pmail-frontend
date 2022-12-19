@@ -11,6 +11,7 @@ import Trash from '@/views/Trash'
 import Drafts from '@/views/Drafts'
 import Login from '@/views/Login'
 import ShowMail from '@/views/ShowMail'
+import Contracts from '@/views/Contracts'
 
 export default function Router() {
   return (
@@ -25,6 +26,7 @@ export default function Router() {
         <Route path="spam" element={<Spam />} />
         <Route path="trash" element={<Trash />} />
         <Route path="drafts" element={<Drafts />} />
+        <Route path="contracts" element={<Contracts />} />
       </Route>
       <Route path="*" element={<NotFund />} />
     </Routes>

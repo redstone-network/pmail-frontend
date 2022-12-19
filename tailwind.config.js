@@ -28,8 +28,16 @@ module.exports = {
     container: {
       center: true
     },
+    fontSize: {
+      sm: ['14px', '15px'],
+      base: ['16px', '24px'],
+      lg: ['20px', '28px'],
+      xl: ['24px', '32px']
+    },
     extend: {
       spacing: {
+        14: '14px',
+        30: '30px',
         256: '256px',
         117: '117px',
         236: '236px',

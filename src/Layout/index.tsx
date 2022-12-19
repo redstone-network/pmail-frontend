@@ -5,11 +5,12 @@ import inbox from '@/icons/inbox.png'
 import sent from '@/icons/sent.png'
 import spam from '@/icons/spam.png'
 import trash from '@/icons/trash.png'
+import contacts from '@/icons/contacts.png'
 import logOut from '@/icons/logout.png'
 import account from '@assets/account.png'
 import { Outlet, NavLink } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/hooks'
-import { setName, setAddress } from '@/store/user'
+import { setName, setAddress, setMail } from '@/store/user'
 
 const Layout = (): JSX.Element => {
   const user = useAppSelector((state) => state.user)
@@ -23,6 +24,7 @@ const Layout = (): JSX.Element => {
   const doLogout = () => {
     dispatch(setName(''))
     dispatch(setAddress(''))
+    dispatch(setMail(''))
     Navigate('/login')
   }
 
@@ -45,22 +47,28 @@ const Layout = (): JSX.Element => {
       href: '/sent',
       value: 0
     },
+    // {
+    //   icon: drafts,
+    //   name: 'Drafts',
+    //   href: '/drafts',
+    //   value: 0
+    // },
+    // {
+    //   icon: spam,
+    //   name: 'Spam',
+    //   href: '/spam',
+    //   value: 0
+    // },
+    // {
+    //   icon: trash,
+    //   name: 'Trash',
+    //   href: '/trash',
+    //   value: 0
+    // },
     {
-      icon: drafts,
-      name: 'Drafts',
-      href: '/drafts',
-      value: 0
-    },
-    {
-      icon: spam,
-      name: 'Spam',
-      href: '/spam',
-      value: 0
-    },
-    {
-      icon: trash,
-      name: 'Trash',
-      href: '/trash',
+      icon: contacts,
+      name: 'Contracts',
+      href: '/contracts',
       value: 0
     }
   ]
@@ -80,7 +88,7 @@ const Layout = (): JSX.Element => {
                     to={item.href}
                     className={({ isActive }) => {
                       const normalClass =
-                        'mb-2 flex	 h-8 w-236	 cursor-pointer items-center  justify-between rounded-full transition-colors hover:bg-sideBarHoverBackground hover:text-white'
+                        'mb-2 flex h-8 w-236 cursor-pointer items-center  justify-between rounded-full transition-colors hover:bg-sideBarHoverBackground hover:text-white'
                       return isActive
                         ? normalClass +
                             ' bg-SideBarActiveBackground text-whiteText'

@@ -2,29 +2,36 @@
 import React from 'react'
 import MailList from './MailList'
 import { Button, Modal, TextInput } from 'flowbite-react'
-import { bindMail } from '@/substrate/index'
+import { bindMail, getMail } from '@/substrate/index'
 import { useAppSelector, useAppDispatch } from '@/hooks'
 import { setMail } from '@/store/user'
 
 function Inbox() {
   const user = useAppSelector((state) => state.user)
   const dispatch = useAppDispatch()
-
   const [name, setName] = useState('')
   const [bindShow, setBindShow] = useState(false)
   useEffect(() => {
-    console.log(user)
-    if (!user.mail) {
-      setBindShow(true)
+    async function init() {
+      if (!user.mail) {
+        const mail = await getMail(user.address)
+        console.log(mail)
+        if (!mail) {
+          setBindShow(true)
+        } else {
+          dispatch(setMail(mail))
+        }
+      }
     }
-  }, [user])
+    init()
+  }, [])
   const doBind = async () => {
-    await bindMail(`${name}@pmail.io`)
-    dispatch(setMail(`${name}@pmail.io`))
+    await bindMail(`${name}@pmailbox.org`)
+    dispatch(setMail(`${name}@pmailbox.org`))
     setBindShow(false)
   }
   return (
-    <div className="py-4 bg-white rounded-lg shadow">
+    <div className="h-full py-4 bg-white rounded-lg shadow">
       <MailList />
       <Modal show={bindShow} size="md">
         <Modal.Body>
@@ -41,7 +48,7 @@ function Inbox() {
                 onChange={(e) => setName(e.target.value)}
                 required={true}
               />
-              @pmail.io
+              @pmailbox.org
             </div>
             <div className="flex justify-center w-full">
               <Button onClick={doBind} size="lg" gradientDuoTone="purpleToBlue">

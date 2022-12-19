@@ -41,7 +41,7 @@ export default ({ command, mode }: ConfigEnv) => {
     server: {
       proxy: {
         '/api': {
-          target: 'http://8.210.129.201:8887',
+          target: 'http://143.198.218.138:8887',
           changeOrigin: true
         }
       }
