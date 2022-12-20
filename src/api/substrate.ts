@@ -6,6 +6,7 @@ import {
   web3Enable,
   web3FromAddress
 } from '@polkadot/extension-dapp'
+import { rejects } from 'assert'
 
 const appName = import.meta.env.VITE_APP_NAME
 const wsProvider = new WsProvider('ws://127.0.0.1:9944')
@@ -39,7 +40,7 @@ export async function bindMail(name: string) {
   console.log('user address', User.address)
   const injector = await web3FromAddress(User.address)
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     api.tx.mail
       .bindAddress(name)
       .signAndSend(
@@ -56,6 +57,9 @@ export async function bindMail(name: string) {
           }
         }
       )
+      .catch((error: any) => {
+        reject(error)
+      })
   })
 }
 export async function doSetAlias(accountObj: any, alias: string) {

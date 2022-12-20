@@ -44,7 +44,8 @@ module.exports = {
         236: '236px',
         50: '50px',
         951: '951px',
-        363: '363px'
+        363: '363px',
+        418: '418px'
       },
       backgroundImage: {
         'hero-pattern': "url('/src/assets/background.png')"

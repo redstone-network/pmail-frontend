@@ -22,6 +22,7 @@ function Login() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const user = useAppSelector((state) => state.user)
+
   const [selectedInfo, setSelectedInfo] = useState<{
     name: string
     address: string
@@ -91,17 +92,17 @@ function Login() {
     <>
       <div className="flex items-center justify-center w-full h-full bg-white bg-center bg-no-repeat bg-contain bg-hero-pattern ">
         <div className="flex flex-col items-center justify-between h-full mx-auto w-951">
-          <div>
+          <div className="h-418">
             <div className="pt-16">
               <img className="mx-auto w-256" src={logo} alt="" />
             </div>
             <div className="pt-12">
               <img className="mx-auto w-363" src={text} alt="" />
             </div>
-            <div className="flex px-2 py-3 mx-auto mt-20 text-center rounded-full w-44 bg-grayText bg-opacity-40">
-              <img className="w-6 h-6 mr-4" src={Polkadotlogo} alt="" />
-              <button onClick={getAccounts}>Connect Wallet</button>
-            </div>
+          </div>
+          <div className="flex px-2 py-3 mx-auto text-center rounded-full w-44 bg-grayText bg-opacity-40">
+            <img className="w-6 h-6 mr-4" src={Polkadotlogo} alt="" />
+            <button onClick={getAccounts}>Connect Wallet</button>
           </div>
           <div className="flex pb-20">
             <img className="mr-7 h-7 w-7" src={twitter} alt="" />
