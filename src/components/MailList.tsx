@@ -1,18 +1,27 @@
 /* eslint-disable tailwindcss/classnames-order */
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { getMailList } from '@/service/list'
+import { getMailList, getSendList } from '@/service/list'
 import { useAppSelector } from '@/hooks'
 import type { Mail } from '@/service/list'
 import Empty from '@/assets/empty.png'
-
-function MailList() {
+export enum Types {
+  SEND = 1,
+  INBOX = 2
+}
+function MailList({ type }: { type: Types }) {
   const user = useAppSelector((state) => state.user)
   const [mailListData, setMailListData] = useState<Mail[]>([])
   const [hasMore, setHasMore] = useState(true)
 
   async function fetchData() {
-    const { data } = await getMailList('subAddr' + user.address)
-    console.log(11111111)
+    let data
+    if (type === Types.INBOX) {
+      const res = await getMailList('subAddr' + user.address)
+      data = res.data
+    } else {
+      const res = await getSendList('subAddr' + user.address)
+      data = res.data
+    }
     if (data && data?.mails) {
       const { nodes, totalCount } = data.mails
       console.log(nodes, totalCount, mailListData)

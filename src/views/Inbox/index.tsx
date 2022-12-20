@@ -1,10 +1,11 @@
 /* eslint-disable tailwindcss/classnames-order */
 import React from 'react'
-import MailList from './MailList'
+import MailList from '@/components/MailList'
 import { Button, Modal, TextInput } from 'flowbite-react'
 import { bindMail, getMail } from '@/substrate/index'
 import { useAppSelector, useAppDispatch } from '@/hooks'
 import { setMail } from '@/store/user'
+import { Types } from '@/components/MailList'
 
 function Inbox() {
   const user = useAppSelector((state) => state.user)
@@ -15,11 +16,10 @@ function Inbox() {
     async function init() {
       if (!user.mail) {
         const mail = await getMail(user.address)
-        console.log(mail)
         if (!mail) {
           setBindShow(true)
         } else {
-          dispatch(setMail(mail))
+          dispatch(setMail(mail as string))
         }
       }
     }
@@ -32,7 +32,7 @@ function Inbox() {
   }
   return (
     <div className="h-full py-4 bg-white rounded-lg shadow">
-      <MailList />
+      <MailList type={Types.INBOX} />
       <Modal show={bindShow} size="md">
         <Modal.Body>
           <div className="px-6 pb-4 space-y-6 sm:pb-6 lg:px-8 xl:pb-8">

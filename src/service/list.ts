@@ -44,3 +44,29 @@ export async function getMailList(id: string): Promise<MailListRes> {
   })
   return rt
 }
+export async function getSendList(id: string): Promise<MailListRes> {
+  const rt = await client.query({
+    query: gql`
+      query queryMailList($toid: String!) {
+        mails(filter: { toId: { equalTo: $toid } }) {
+          nodes {
+            id
+            from {
+              id
+              type
+            }
+            to {
+              id
+              type
+            }
+            hash
+            timestamp
+          }
+          totalCount
+        }
+      }
+    `,
+    variables: { toid: id }
+  })
+  return rt
+}
