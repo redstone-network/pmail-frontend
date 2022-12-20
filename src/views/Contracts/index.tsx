@@ -2,7 +2,7 @@
 import addIcon from '@/assets/add.png'
 import accountIcon from '@/assets/account.png'
 import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react'
-import { doSetAlias } from '@/substrate/index'
+import { doSetAlias } from '@/api/substrate'
 
 interface TypeItem {
   value: string

@@ -2,7 +2,7 @@
 import React from 'react'
 import MailList from '@/components/MailList'
 import { Button, Modal, TextInput } from 'flowbite-react'
-import { bindMail, getMail } from '@/substrate/index'
+import { bindMail, getMail } from '@/api/substrate'
 import { useAppSelector, useAppDispatch } from '@/hooks'
 import { setMail } from '@/store/user'
 import { Types } from '@/components/MailList'

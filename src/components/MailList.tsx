@@ -1,8 +1,8 @@
 /* eslint-disable tailwindcss/classnames-order */
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { getMailList, getSendList } from '@/service/list'
+import { getMailList, getSendList } from '@/api/list'
 import { useAppSelector } from '@/hooks'
-import type { Mail } from '@/service/list'
+import type { Mail } from '@/api/list'
 import Empty from '@/assets/empty.png'
 export enum Types {
   SEND = 1,

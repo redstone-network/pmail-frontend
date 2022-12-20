@@ -1,6 +1,6 @@
 import { BsReply, BsTrash } from 'react-icons/bs'
 import Account from '@/assets/account.png'
-import { getMailDetail } from '@/service/index'
+import { getMailDetail } from '@/api/index'
 
 function ShowMail(): JSX.Element {
   const { hash } = useParams()
