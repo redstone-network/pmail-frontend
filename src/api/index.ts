@@ -16,7 +16,7 @@ interface Res<T> {
   data: T
   msg: string
 }
-interface MailDetail {
+export interface MailDetail {
   fromName: string
   fromAddress: string
   toName: string
