@@ -29,7 +29,7 @@ function Home(): JSX.Element {
       body: `<meta http-equiv="Content-Type" content="text/html; charset=GB18030">${mailInfo}`,
       from: [
         {
-          Name: `=?gb18030?B?${user.name}?=`,
+          Name: `=?gb18030?B?${user.mail}?=`,
           Address: user.address
         }
       ],
@@ -158,11 +158,6 @@ function Home(): JSX.Element {
           </div>
         </div>
       </div>
-      <Toast>
-        <div className="ml-3 text-sm font-normal">
-          Place Select Account Type
-        </div>
-      </Toast>
     </>
   )
 }

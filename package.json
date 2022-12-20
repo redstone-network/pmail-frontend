@@ -22,6 +22,7 @@
     "@polkadot/keyring": "^10.2.1",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.1",
+    "daisyui": "^2.45.0",
     "flowbite": "^1.5.4",
     "flowbite-react": "^0.3.7",
     "graphql": "^16.6.0",

@@ -56,7 +56,7 @@ function Login() {
     dispatch(setAddress(selectedInfo.address))
     dispatch(setName(selectedInfo.name))
     setAccountModalShow(false)
-    navigate('/')
+    navigate('/inbox')
   }
   const getAccounts = async (): Promise<undefined> => {
     const extensions = await web3Enable(appName)

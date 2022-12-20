@@ -16,10 +16,15 @@ export default function Router() {
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="/" element={<Layout />}>
-        <Route index element={<Inbox />} />
-        <Route path="mail/:id" element={<ShowMail />} />
+        <Route path="inbox">
+          <Route index element={<Inbox />}></Route>
+          <Route path=":hash" element={<ShowMail />}></Route>
+        </Route>
         <Route path="compose" element={<Compose />} />
-        <Route path="sent" element={<Sent />} />
+        <Route path="sent">
+          <Route index element={<Sent />}></Route>
+          <Route path=":hash" element={<ShowMail />}></Route>
+        </Route>
         <Route path="contracts" element={<Contracts />} />
       </Route>
       <Route path="*" element={<NotFund />} />

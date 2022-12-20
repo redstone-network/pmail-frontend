@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/classnames-order */
 import InfiniteScroll from 'react-infinite-scroll-component'
-import './MailList.css'
 import { getMailList } from '@/service/list'
 import { useAppSelector } from '@/hooks'
 import type { Mail } from '@/service/list'
@@ -24,7 +23,7 @@ function MailList() {
   }
   const Navigate = useNavigate()
   const ShowMail = (hash: string) => {
-    Navigate(`/mail/${hash}`)
+    Navigate(`/inbox/${hash}`)
   }
   useEffect(() => {
     fetchData()
@@ -48,7 +47,7 @@ function MailList() {
             <div
               key={item.hash}
               onClick={() => ShowMail(item.hash)}
-              className="flex items-center py-2 transition-all border-b border-solid cursor-pointer mail-item"
+              className="flex items-center py-2 transition-all border-b border-solid cursor-pointer hover:shadow-md"
             >
               <div className="w-40 mr-4 truncate shrink-0">
                 Discord DiscordDiscordDiscordDiscordDiscordDiscordDiscordDiscord
