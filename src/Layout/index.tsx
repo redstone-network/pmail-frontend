@@ -1,9 +1,9 @@
 import logo from '@/assets/logo.png'
-import compose from '@/icons/compose.png'
-import inbox from '@/icons/inbox.png'
-import sent from '@/icons/sent.png'
-import contacts from '@/icons/contacts.png'
-import logOut from '@/icons/logout.png'
+import compose from '@/assets/icons/compose.png'
+import inbox from '@/assets/icons/inbox.png'
+import sent from '@/assets/icons/sent.png'
+import contacts from '@/assets/icons/contacts.png'
+import logOut from '@/assets/icons/logout.png'
 import account from '@assets/account.png'
 import { Outlet, NavLink } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@/hooks'
@@ -43,13 +43,13 @@ const Layout = (): JSX.Element => {
       name: 'Sent',
       href: '/sent',
       value: 0
-    },
-    {
-      icon: contacts,
-      name: 'Contracts',
-      href: '/contracts',
-      value: 0
     }
+    // {
+    //   icon: contacts,
+    //   name: 'Contracts',
+    //   href: '/contracts',
+    //   value: 0
+    // }
   ]
   return (
     <div className="flex w-screen h-screen overflow-hidden bg-background">

@@ -9,18 +9,12 @@ function ShowMail(): JSX.Element {
   const [fromAccount, setFromInfo] = useState('')
   const [time, setTime] = useState('')
   async function fetchData() {
-    const { code, data } = await getMailDetail<string>(hash!)
-    if (code === 0) {
-      const { body: mailDetail } = JSON.parse(data)
-      console.log(mailDetail)
-      setSubject(mailDetail.subject)
-      setMailBody(mailDetail.body)
-      const fromAccount = mailDetail.from[0].Name.match(
-        /^=\?gb18030\?B\?(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)\?=$/
-      )[1]
-      const time = new Date(mailDetail.timestampe).toDateString()
-      setTime(time)
-      setFromInfo(fromAccount)
+    const res = await getMailDetail(hash!)
+    if (res) {
+      setSubject(res.subject)
+      setMailBody(res.body)
+      setTime(res.time)
+      setFromInfo(res.fromName)
     }
   }
   useEffect(() => {

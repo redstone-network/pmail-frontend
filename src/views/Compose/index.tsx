@@ -26,20 +26,20 @@ function Home(): JSX.Element {
     const now = new Date()
     const body = {
       subject: subjectValue,
-      body: `<meta http-equiv="Content-Type" content="text/html; charset=GB18030">${mailInfo}`,
+      body: mailInfo,
       from: [
         {
-          Name: `=?gb18030?B?${user.mail}?=`,
+          Name: user.mail,
           Address: user.address
         }
       ],
       to: [
         {
-          Name: '=?gb18030?B??=',
+          Name: '',
           Address: toValue
         }
       ],
-      date: now.toString(),
+      date: now.toDateString(),
       timestampe: now.getTime()
     }
     const { code, data } = await uploadMail<string>(uuid, body)
