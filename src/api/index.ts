@@ -1,7 +1,7 @@
 import request from './request'
 interface User {
-  Name: string
-  Address: string
+  name: string
+  address: string
 }
 interface MailInfo {
   subject: string
@@ -41,31 +41,60 @@ export function uploadMail<T>(
 }
 export async function getMailDetail(hash: string): Promise<MailDetail | null> {
   try {
-    const { code, data }: Res<string> = await request({
-      url: `/api/storage/${hash}`,
+    const obj: any = await request({
+      url: `/api/storage/raw/${hash}`,
       method: 'GET'
     })
-    if (code === 0) {
-      const { body: mailDetail } = JSON.parse(data)
-      const fromName = mailDetail.from[0].Name
-      const fromAddress = mailDetail.from[0].Address
-      const toName = mailDetail.to[0].Name
-      const toAddress = mailDetail.to[0].Address
-      const time = new Date(mailDetail.timestampe).toDateString()
-      return {
-        fromName,
-        fromAddress,
-        toName,
-        toAddress,
-        time,
-        hash,
-        body: mailDetail.body,
-        subject: mailDetail.subject,
-        timestampe: mailDetail.timestampe
-      }
+
+    function isPlainObject(input: any) {
+      return input && typeof input === 'object';
     }
-    return null
+
+    function propertyNamesToLowercase(obj: any): any {
+      const final: any = {};
+  
+      // Iterate over key-value pairs of the root object 'obj'
+      for (const [key, value] of Object.entries(obj)) {
+        // Set the lowercased key in the 'final' object and use the original value if it's not an object
+        // else use the value returned by this function (recursive call).
+        final[key.toLowerCase()] = isPlainObject(value) ? propertyNamesToLowercase(value) : value;
+
+        if (Array.isArray(value)) {
+          const arr: any[] = []
+          for (var item in value ){
+            let newItem = isPlainObject(item) ? propertyNamesToLowercase(value) : value;
+            arr.push(newItem);
+          }
+          final[key.toLowerCase()]= arr;
+        }
+      }
+      return final;
+    }
+
+    let mailDetail = propertyNamesToLowercase(obj);
+    var size = Object.keys(mailDetail).length;
+    if( size === 1 ) {
+      mailDetail = Object.values(mailDetail)[0];
+    }
+
+    const fromName = mailDetail.from[0].Name
+    const fromAddress = mailDetail.from[0].Address
+    const toName = mailDetail.to[0].Name
+    const toAddress = mailDetail.to[0].Address
+    const time = new Date(mailDetail.timestampe).toDateString()
+    return {
+      fromName,
+      fromAddress,
+      toName,
+      toAddress,
+      time,
+      hash,
+      body: mailDetail.body,
+      subject: mailDetail.subject,
+      timestampe: mailDetail.timestampe
+    }
   } catch (e) {
+    console.log("### error", e)
     return null
   }
 }
