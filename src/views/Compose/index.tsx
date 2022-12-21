@@ -67,6 +67,9 @@ function Home(): JSX.Element {
     }
     setSending(false)
     setShowToast(true)
+    setTimeout(() => {
+      setShowToast(false)
+    }, 2000)
   }
   const typeList: TypeItem[] = [
     {
