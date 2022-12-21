@@ -18,7 +18,7 @@ type MailListRes = {
   }
 }
 
-export async function getMailList(id: string): Promise<MailListRes> {
+export async function getSendList(id: string): Promise<MailListRes> {
   const rt = await client.query({
     query: gql`
       query queryMailList($fid: String!) {
@@ -44,7 +44,7 @@ export async function getMailList(id: string): Promise<MailListRes> {
   })
   return rt
 }
-export async function getSendList(id: string): Promise<MailListRes> {
+export async function getMailList(id: string): Promise<MailListRes> {
   const rt = await client.query({
     query: gql`
       query queryMailList($toid: String!) {
