@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 /* eslint-disable tailwindcss/classnames-order */
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -6,8 +7,10 @@ import { uploadMail } from '@/api/index'
 import { nanoid } from 'nanoid'
 import { sendMailBlock } from '@/api/substrate'
 import { useAppSelector } from '@/hooks'
-import { Dropdown, Toast } from 'flowbite-react'
+import { Dropdown, Spinner, Toast } from 'flowbite-react'
 import { editorModules, editorFormats } from './Editor/editor'
+import { HiX } from 'react-icons/hi'
+
 interface TypeItem {
   value: string
   label: string
@@ -18,10 +21,16 @@ function Home(): JSX.Element {
   const [toValue, setToValue] = useState('')
   const [subjectValue, setSubjectValue] = useState('')
   const [activeType, setActiveType] = useState<TypeItem | null>(null)
+  const [sending, setSending] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+
   const selectItem = (activeType: TypeItem) => {
     setActiveType(activeType)
   }
   const submit = async () => {
+    if (!activeType) {
+      return
+    }
     const uuid = nanoid()
     const now = new Date()
     const body = {
@@ -42,14 +51,13 @@ function Home(): JSX.Element {
       date: now.toDateString(),
       timestampe: now.getTime()
     }
+    setSending(true)
     const { code, data } = await uploadMail<string>(uuid, body)
-    if (!activeType) {
-      return
-    }
+
     if (code === 0 && data) {
       const timestamp = new Date().getTime()
       const storeHash = data
-      sendMailBlock(
+      await sendMailBlock(
         {
           [activeType.value]: toValue
         },
@@ -57,6 +65,8 @@ function Home(): JSX.Element {
         storeHash
       )
     }
+    setSending(false)
+    setShowToast(true)
   }
   const typeList: TypeItem[] = [
     {
@@ -158,6 +168,26 @@ function Home(): JSX.Element {
           </div>
         </div>
       </div>
+      {showToast && (
+        <Toast className="fixed top-0 left-1/2 ">
+          <div className="inline-flex items-center justify-center w-8 h-8 text-red-500 bg-red-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-red-200">
+            <HiX className="w-5 h-5" />
+          </div>
+          <div className="ml-3 text-sm font-normal">send successful</div>
+        </Toast>
+      )}
+      {sending && (
+        <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto h-modal md:inset-0 md:h-full">
+          <div className="relative flex items-center justify-center w-full h-full">
+            <div className="overflow-hidden bg-gray-900 bg-opacity-50 rounded-md">
+              <div className="flex flex-col items-center justify-center px-6 py-2">
+                <Spinner />
+                <span className="pl-3 text-white">Sending...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

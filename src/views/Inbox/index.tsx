@@ -19,6 +19,7 @@ function Inbox() {
     async function init() {
       if (!user.mail) {
         const mail = await getMail(user.address)
+        console.log(user.address, mail)
         if (!mail) {
           setBindShow(true)
         } else {
@@ -59,7 +60,7 @@ function Inbox() {
     <div className="h-full py-4 bg-white rounded-lg shadow">
       <MailList type={Types.INBOX} />
       <Modal show={bindShow} size="md">
-        <h3 className="text-xl font-medium text-center text-gray-900 dark:text-white">
+        <h3 className="pt-4 text-xl font-medium text-center text-gray-900 transition dark:text-white">
           Bind Mail Address
         </h3>
         <Modal.Body>
