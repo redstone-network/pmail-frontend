@@ -34,9 +34,7 @@ export function uploadMail<T>(
   return request({
     url: `/api/storage/${filename}`,
     method: 'POST',
-    data: {
-      body
-    }
+    data: body
   })
 }
 export async function getMailDetail(hash: string): Promise<MailDetail | null> {
