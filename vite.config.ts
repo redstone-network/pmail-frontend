@@ -7,8 +7,6 @@ import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default ({ command, mode }: ConfigEnv) => {
   const currentEnv = loadEnv(mode, process.cwd())
-  console.log('当前模式', command)
-  console.log('当前环境配置', currentEnv)
   return defineConfig({
     plugins: [
       react(),
@@ -47,7 +45,6 @@ export default ({ command, mode }: ConfigEnv) => {
       }
     },
     css: {
-      // css预处理器
       preprocessorOptions: {
         sass: {
           javascriptEnabled: true

@@ -60,7 +60,7 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
           : value
 
         if (Array.isArray(value)) {
-          const arr: any[] = []
+          const arr: unknown[] = []
           for (const item in value) {
             const newItem = isPlainObject(item)
               ? propertyNamesToLowercase(value)
@@ -78,7 +78,6 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
     if (size === 1) {
       mailDetail = Object.values(mailDetail)[0]
     }
-    console.log('222', mailDetail)
     const fromName = mailDetail.from[0][0].Name
     const fromAddress = mailDetail.from[0][0].Address
     const toName = mailDetail.to[0][0].Name

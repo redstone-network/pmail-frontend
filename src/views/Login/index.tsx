@@ -78,7 +78,6 @@ function Login() {
     } else {
       setAccountsNotFound(false)
     }
-    console.log(accounts)
     setAccounts(accounts)
     setIsAccountLoading(false)
     setSelectedInfo({

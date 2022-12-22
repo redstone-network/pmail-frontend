@@ -15,11 +15,11 @@ function Inbox() {
   const [bindLoading, setBindLoading] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const [tipInfo, setTipInfo] = useState('')
+
   useEffect(() => {
     async function init() {
       if (!user.mail) {
         const mail = await getMail(user.address)
-        console.log(user.address, mail)
         if (!mail) {
           setBindShow(true)
         } else {
@@ -42,7 +42,6 @@ function Inbox() {
       setBindShow(false)
       setBindLoading(false)
     } catch (e) {
-      console.log(e.toString())
       const errString = e.toString()
       if (errString === 'Error: Cancelled') {
         setTipInfo('Cancelled')

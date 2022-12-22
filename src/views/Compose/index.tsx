@@ -11,10 +11,6 @@ import { editorModules } from './Editor/editor'
 import { toast, Id } from 'react-toastify'
 import { RxFileText, RxTrash } from 'react-icons/rx'
 
-interface TypeItem {
-  value: string
-  label: string
-}
 const enum TYPES {
   NormalAddr = 'NormalAddr',
   ETHAddr = 'ETHAddr',
@@ -66,32 +62,32 @@ function Home(): JSX.Element {
       })
       return
     }
+    setTipText('')
+    setSending(true)
+    toastId.current = toast.loading('Please wait....', {
+      pauseOnFocusLoss: false
+    })
+    const uuid = nanoid()
+    const now = new Date()
+    const body = {
+      subject: subjectValue,
+      body: mailInfo,
+      from: [
+        {
+          Name: user.mail,
+          Address: user.address
+        }
+      ],
+      to: [
+        {
+          Name: '',
+          Address: toValue
+        }
+      ],
+      date: now.toDateString(),
+      timestampe: now.getTime()
+    }
     try {
-      setTipText('')
-      setSending(true)
-      toastId.current = toast.loading('Please wait....', {
-        pauseOnFocusLoss: false
-      })
-      const uuid = nanoid()
-      const now = new Date()
-      const body = {
-        subject: subjectValue,
-        body: mailInfo,
-        from: [
-          {
-            Name: user.mail,
-            Address: user.address
-          }
-        ],
-        to: [
-          {
-            Name: '',
-            Address: toValue
-          }
-        ],
-        date: now.toDateString(),
-        timestampe: now.getTime()
-      }
       const { code, data } = await uploadMail<string>(uuid, body)
 
       if (code === 0 && data) {
@@ -117,7 +113,15 @@ function Home(): JSX.Element {
         closeButton: false
       })
     } catch (e) {
-      console.log(e)
+      toast.update(toastId.current, {
+        render: 'send mail fail',
+        type: toast.TYPE.ERROR,
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
     }
   }
 

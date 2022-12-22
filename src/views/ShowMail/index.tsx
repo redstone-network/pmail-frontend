@@ -16,7 +16,6 @@ function ShowMail(): JSX.Element {
   const [time, setTime] = useState('')
   async function fetchData() {
     const res = await getMailDetail(hash!)
-    console.log(res)
     if (res) {
       setSubject(res.subject)
       setMailBody(res.body)

@@ -11,9 +11,7 @@ import { rejects } from 'assert'
 const appName = import.meta.env.VITE_APP_NAME
 const wsProvider = new WsProvider('ws://127.0.0.1:9944')
 const api = await ApiPromise.create({ provider: wsProvider })
-console.log('init')
 const User = store.getState().user
-console.log(User)
 export function getUser(userName: string) {
   const keyring = new Keyring({ type: 'sr25519' })
   const user = keyring.addFromUri(`//${userName}`)
@@ -62,7 +60,7 @@ export async function bindMail(name: string) {
         })
     })
   } catch (e) {
-    console.log('sss', e)
+    console.log(e)
   }
 }
 export async function doSetAlias(accountObj: any, alias: string) {
@@ -98,7 +96,6 @@ export async function sendMailBlock(
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
   return new Promise((resolve, reject) => {
-    console.log(MailAddress, uint, vec)
     api.tx.mail
       .sendMail(MailAddress, uint, vec)
       .signAndSend(
@@ -106,7 +103,6 @@ export async function sendMailBlock(
         { signer: injector.signer },
         ({ events = [], status }) => {
           if (status.isFinalized) {
-            console.log('send mail success')
             resolve(true)
             events.forEach(({ phase, event: { data, method, section } }) => {
               console.log(
@@ -117,7 +113,6 @@ export async function sendMailBlock(
         }
       )
       .catch((error: any) => {
-        console.log('send mail error')
         reject(error)
       })
   })

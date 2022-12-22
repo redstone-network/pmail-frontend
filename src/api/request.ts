@@ -12,7 +12,6 @@ const axios = Axios.create({
 axios.interceptors.response.use(
   (response) => {
     const data = response.data
-    console.log('response:', response)
     if (response.status === 200) {
       return data
     }

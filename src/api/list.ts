@@ -1,8 +1,23 @@
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
-
+import {
+  ApolloClient,
+  DefaultOptions,
+  InMemoryCache,
+  gql
+} from '@apollo/client'
+const defaultOptions: DefaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'ignore'
+  },
+  query: {
+    fetchPolicy: 'no-cache',
+    errorPolicy: 'all'
+  }
+}
 const client = new ApolloClient({
   uri: 'http://127.0.0.1:3001/',
-  cache: new InMemoryCache({ resultCaching: false })
+  cache: new InMemoryCache(),
+  defaultOptions: defaultOptions
 })
 export interface Mail {
   hash: string
@@ -19,7 +34,6 @@ type MailListRes = {
 }
 
 export async function getSendList(id: string): Promise<MailListRes> {
-  console.log('getSendList')
   try {
     const rt = await client.query({
       query: gql`
@@ -57,7 +71,6 @@ export async function getSendList(id: string): Promise<MailListRes> {
   }
 }
 export async function getMailList(id: string): Promise<MailListRes> {
-  console.log('getMailList')
   try {
     const rt = await client.query({
       query: gql`
