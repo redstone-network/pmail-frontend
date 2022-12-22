@@ -113,7 +113,7 @@ const Layout = (): JSX.Element => {
                 <img src={account} alt="" />
               </div>
               <div>
-                <div className="mb-1 text-white truncate w-36">{user.name}</div>
+                <div className="mb-1 text-white truncate w-36">{user.mail}</div>
                 <div className="truncate w-36">{user.address}</div>
               </div>
             </div>

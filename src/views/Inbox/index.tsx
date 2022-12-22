@@ -38,7 +38,7 @@ function Inbox() {
     setBindLoading(true)
     try {
       await bindMail(`${name}`)
-      dispatch(setMail(`${name}@pmailbox.org`))
+      dispatch(setMail(`${name}`))
       setBindShow(false)
       setBindLoading(false)
     } catch (e) {
