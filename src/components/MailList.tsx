@@ -20,7 +20,7 @@ function MailList({ type }: { type: Types }) {
   }
   const Navigate = useNavigate()
   const ShowMail = (hash: string) => {
-    Navigate(`/inbox/${hash}`)
+    Navigate(`${hash}`)
   }
   useEffect(() => {
     async function fetchData() {
@@ -77,7 +77,7 @@ function MailList({ type }: { type: Types }) {
       ) : (
         <div className="flex flex-col items-center justify-center h-full">
           <img className="w-20 h-20 mb-4" src={Empty} />
-          <div className="text-grayText">it&apos; empty</div>
+          <div className="text-grayText">It’s&apos; empty</div>
         </div>
       )}
     </div>

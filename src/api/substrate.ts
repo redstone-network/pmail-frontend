@@ -37,7 +37,6 @@ export async function getChainInfo() {
 
 export async function bindMail(name: string) {
   await web3Enable(appName)
-  console.log('user address', User.address)
   const injector = await web3FromAddress(User.address)
 
   return new Promise((resolve, reject) => {
@@ -90,10 +89,11 @@ export async function sendMailBlock(
   uint: number,
   vec: string
 ) {
+  console.log(MailAddress, uint, vec)
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     console.log(MailAddress, uint, vec)
     api.tx.mail
       .sendMail(MailAddress, uint, vec)
@@ -112,10 +112,15 @@ export async function sendMailBlock(
           }
         }
       )
+      .catch((error: any) => {
+        reject(error)
+      })
   })
 }
 
 export async function getMail(accountId: string) {
+  console.log('get account', accountId)
   const res = await api.query.mail.mailMap(accountId)
+  console.log('get account res', res.toHuman())
   return res.toHuman()
 }

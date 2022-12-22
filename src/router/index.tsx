@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Layout from '@/Layout/index'
 import NotFund from '@/Layout/NotFound'
 
@@ -16,6 +16,7 @@ export default function Router() {
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="/" element={<Layout />}>
+        <Route index element={<Navigate to="/login" />} />
         <Route path="inbox">
           <Route index element={<Inbox />}></Route>
           <Route path=":hash" element={<ShowMail />}></Route>

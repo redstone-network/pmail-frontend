@@ -48,6 +48,7 @@ specifiers:
   react-quill: ^2.0.0
   react-redux: ^8.0.5
   react-router-dom: ^6.4.4
+  react-toastify: ^9.1.1
   redux-persist: ^6.0.0
   redux-thunk: ^2.4.2
   sass: ^1.56.1
@@ -78,6 +79,7 @@ dependencies:
   react-quill: 2.0.0_react-dom@18.2.0+react@18.2.0
   react-redux: 8.0.5_c4200ea2676a66b55d12a0281f8b8a78
   react-router-dom: 6.4.4_react-dom@18.2.0+react@18.2.0
+  react-toastify: 9.1.1_react-dom@18.2.0+react@18.2.0
   redux-persist: 6.0.0
   redux-thunk: 2.4.2
   tailwind-scrollbar: 2.0.1_tailwindcss@3.2.4
@@ -3510,6 +3512,11 @@ packages:
   /clone/2.1.2:
     resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
     engines: {node: '>=0.8'}
+
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
 
   /co/4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
@@ -7353,6 +7360,17 @@ packages:
     dependencies:
       '@remix-run/router': 1.0.4
       react: 18.2.0
+    dev: false
+
+  /react-toastify/9.1.1_react-dom@18.2.0+react@18.2.0:
+    resolution: {integrity: sha512-pkFCla1z3ve045qvjEmn2xOJOy4ZciwRXm1oMPULVkELi5aJdHCN/FHnuqXq8IwGDLB7PPk2/J6uP9D8ejuiRw==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.2.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react/18.2.0:

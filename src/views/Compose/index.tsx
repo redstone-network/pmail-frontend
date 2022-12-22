@@ -7,88 +7,119 @@ import { uploadMail } from '@/api/index'
 import { nanoid } from 'nanoid'
 import { sendMailBlock } from '@/api/substrate'
 import { useAppSelector } from '@/hooks'
-import { Dropdown, Spinner, Toast } from 'flowbite-react'
-import { editorModules, editorFormats } from './Editor/editor'
-import { HiX } from 'react-icons/hi'
+import { editorModules } from './Editor/editor'
+import { toast, Id } from 'react-toastify'
+import { RxFileText, RxTrash } from 'react-icons/rx'
 
 interface TypeItem {
   value: string
   label: string
 }
+const enum TYPES {
+  NormalAddr = 'NormalAddr',
+  ETHAddr = 'ETHAddr',
+  SubAddr = 'SubAddr'
+}
+
+function getAddressType(address: string): TYPES | null {
+  if (/^5\w{47}$/.test(address)) {
+    return TYPES.SubAddr
+  } else if (/^0x[0-9a-f]{40}$/.test(address)) {
+    return TYPES.ETHAddr
+  } else if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(address)) {
+    return TYPES.NormalAddr
+  } else {
+    return null
+  }
+}
 function Home(): JSX.Element {
   const user = useAppSelector((state) => state.user)
+  const toastId = useRef<Id | null>(null)
   const [mailInfo, setMailInfo] = useState('')
   const [toValue, setToValue] = useState('')
   const [subjectValue, setSubjectValue] = useState('')
-  const [activeType, setActiveType] = useState<TypeItem | null>(null)
+  const [tipText, setTipText] = useState('')
   const [sending, setSending] = useState(false)
-  const [showToast, setShowToast] = useState(false)
+  const NoError = 'No recipients defined'
+  const checkError = 'Invalid recipient found, please check your recipients'
 
-  const selectItem = (activeType: TypeItem) => {
-    setActiveType(activeType)
-  }
   const submit = async () => {
-    if (!activeType) {
+    if (toValue === '') {
+      setTipText(NoError)
+      toast.error(NoError, {
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
       return
     }
-    const uuid = nanoid()
-    const now = new Date()
-    const body = {
-      subject: subjectValue,
-      body: mailInfo,
-      from: [
-        {
-          Name: user.mail,
-          Address: user.address
-        }
-      ],
-      to: [
-        {
-          Name: '',
-          Address: toValue
-        }
-      ],
-      date: now.toDateString(),
-      timestampe: now.getTime()
+    if (getAddressType(toValue) === null) {
+      setTipText(checkError)
+      toast.error(checkError, {
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
+      return
     }
-    setSending(true)
-    const { code, data } = await uploadMail<string>(uuid, body)
+    try {
+      setTipText('')
+      setSending(true)
+      toastId.current = toast.loading('Please wait....', {
+        pauseOnFocusLoss: false
+      })
+      const uuid = nanoid()
+      const now = new Date()
+      const body = {
+        subject: subjectValue,
+        body: mailInfo,
+        from: [
+          {
+            Name: user.mail,
+            Address: user.address
+          }
+        ],
+        to: [
+          {
+            Name: '',
+            Address: toValue
+          }
+        ],
+        date: now.toDateString(),
+        timestampe: now.getTime()
+      }
+      const { code, data } = await uploadMail<string>(uuid, body)
 
-    if (code === 0 && data) {
-      const timestamp = new Date().getTime()
-      const storeHash = data
-      await sendMailBlock(
-        {
-          [activeType.value]: toValue
-        },
-        timestamp,
-        storeHash
-      )
+      if (code === 0 && data) {
+        const timestamp = new Date().getTime()
+        const storeHash = data
+        const type = getAddressType(toValue)!
+        await sendMailBlock(
+          {
+            [type]: toValue
+          },
+          timestamp,
+          storeHash
+        )
+      }
+      setSending(false)
+      toast.update(toastId.current, {
+        render: 'send mail successful',
+        type: toast.TYPE.SUCCESS,
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
+    } catch (e) {
+      console.log(e)
     }
-    setSending(false)
-    setShowToast(true)
-    setTimeout(() => {
-      setShowToast(false)
-    }, 2000)
   }
-  const typeList: TypeItem[] = [
-    {
-      value: 'NormalAddr',
-      label: 'web2 Address'
-    },
-    {
-      value: 'ETHAddr',
-      label: 'EHT Address'
-    },
-    {
-      value: 'SubAddr',
-      label: 'Substrate Address'
-    },
-    {
-      value: 'MoonbeamAddr',
-      label: 'Moonbeam Address'
-    }
-  ]
 
   return (
     <>
@@ -114,21 +145,8 @@ function Home(): JSX.Element {
                 }}
                 className="block w-full truncate rounded border border-none bg-white p-2.5 text-sm text-gray-900 focus:border-none focus:ring-white"
               />
-              <div className="w-48 shrink-0">
-                <Dropdown
-                  label={activeType ? activeType.label : 'Account Type'}
-                >
-                  {typeList.map((item) => (
-                    <Dropdown.Item
-                      key={item.value}
-                      onClick={() => selectItem(item)}
-                    >
-                      {item.label}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown>
-              </div>
             </div>
+            <div className="text-xs text-red-600 h-14 ">{tipText}</div>
             <div className="flex items-center py-1 border-b">
               <label
                 htmlFor="to"
@@ -151,45 +169,42 @@ function Home(): JSX.Element {
             </div>
           </div>
           <div className="px-4 py-2 overflow-scroll bg-white rounded-lg shadow grow">
-            <div className="pb-4 grow">
+            <div className="pb-4 h-5/6 grow">
               <ReactQuill
                 theme="snow"
+                className="h-full"
                 modules={editorModules}
-                formats={editorFormats}
                 value={mailInfo}
                 onChange={setMailInfo}
-              />
+              ></ReactQuill>
             </div>
           </div>
-          <div className="pt-4 pl-4">
+          <div className="flex pt-4 pl-4">
             <button
               onClick={submit}
-              className="px-5 py-2 text-white rounded bg-btnBlue hover:bg-btnHoverBlue"
+              className="px-5 py-2 mr-3 text-white transition rounded bg-btnBlue hover:bg-btnHoverBlue"
             >
               Send
+            </button>
+            <button
+              onClick={submit}
+              className="flex items-center px-5 py-2 mr-3 transition rounded text-textBlack bg-btnGary hover:bg-btnHoverGary"
+            >
+              <RxFileText className="text-lg" />
+              Save draft
+            </button>
+            <button
+              onClick={submit}
+              className="flex items-center px-5 py-2 transition rounded text-textBlack bg-btnGary hover:bg-btnHoverGary"
+            >
+              <RxTrash className="text-lg" />
+              Discard
             </button>
           </div>
         </div>
       </div>
-      {showToast && (
-        <Toast className="fixed top-0 left-1/2 ">
-          <div className="inline-flex items-center justify-center w-8 h-8 text-red-500 bg-red-100 rounded-lg shrink-0 dark:bg-red-800 dark:text-red-200">
-            <HiX className="w-5 h-5" />
-          </div>
-          <div className="ml-3 text-sm font-normal">send successful</div>
-        </Toast>
-      )}
       {sending && (
-        <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto h-modal md:inset-0 md:h-full">
-          <div className="relative flex items-center justify-center w-full h-full">
-            <div className="overflow-hidden bg-gray-900 bg-opacity-50 rounded-md">
-              <div className="flex flex-col items-center justify-center px-6 py-2">
-                <Spinner />
-                <span className="pl-3 text-white">Sending...</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="fixed inset-x-0 top-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto bg-gray-900 h-modal opacity-20 md:inset-0 md:h-full"></div>
       )}
     </>
   )

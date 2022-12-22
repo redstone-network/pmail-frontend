@@ -23,6 +23,8 @@ module.exports = {
       btnBlue: '#2526D9',
       btnHoverBlue: '#1D1D9E',
       textBlack: '#000000',
+      btnGary: '#E5E5E5',
+      btnHoverGary: '#CCCCCC',
       primary: '#D62EFF'
     },
     container: {

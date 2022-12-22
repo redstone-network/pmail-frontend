@@ -47,40 +47,44 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
     })
 
     function isPlainObject(input: any) {
-      return input && typeof input === 'object';
+      return input && typeof input === 'object'
     }
 
     function propertyNamesToLowercase(obj: any): any {
-      const final: any = {};
-  
+      const final: any = {}
+
       // Iterate over key-value pairs of the root object 'obj'
       for (const [key, value] of Object.entries(obj)) {
         // Set the lowercased key in the 'final' object and use the original value if it's not an object
         // else use the value returned by this function (recursive call).
-        final[key.toLowerCase()] = isPlainObject(value) ? propertyNamesToLowercase(value) : value;
+        final[key.toLowerCase()] = isPlainObject(value)
+          ? propertyNamesToLowercase(value)
+          : value
 
         if (Array.isArray(value)) {
           const arr: any[] = []
-          for (var item in value ){
-            let newItem = isPlainObject(item) ? propertyNamesToLowercase(value) : value;
-            arr.push(newItem);
+          for (const item in value) {
+            const newItem = isPlainObject(item)
+              ? propertyNamesToLowercase(value)
+              : value
+            arr.push(newItem)
           }
-          final[key.toLowerCase()]= arr;
+          final[key.toLowerCase()] = arr
         }
       }
-      return final;
+      return final
     }
 
-    let mailDetail = propertyNamesToLowercase(obj);
-    var size = Object.keys(mailDetail).length;
-    if( size === 1 ) {
-      mailDetail = Object.values(mailDetail)[0];
+    let mailDetail = propertyNamesToLowercase(obj)
+    const size = Object.keys(mailDetail).length
+    if (size === 1) {
+      mailDetail = Object.values(mailDetail)[0]
     }
-
-    const fromName = mailDetail.from[0].Name
-    const fromAddress = mailDetail.from[0].Address
-    const toName = mailDetail.to[0].Name
-    const toAddress = mailDetail.to[0].Address
+    console.log('222', mailDetail)
+    const fromName = mailDetail.from[0][0].Name
+    const fromAddress = mailDetail.from[0][0].Address
+    const toName = mailDetail.to[0][0].Name
+    const toAddress = mailDetail.to[0][0].Address
     const time = new Date(mailDetail.timestampe).toDateString()
     return {
       fromName,
@@ -94,7 +98,7 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
       timestampe: mailDetail.timestampe
     }
   } catch (e) {
-    console.log("### error", e)
+    console.log('### error', e)
     return null
   }
 }
