@@ -92,7 +92,7 @@ export async function sendMailBlock(
   uint: number,
   vec: string
 ) {
-  console.log(MailAddress, uint, vec)
+  console.log('ddd', MailAddress, uint, vec)
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
 
@@ -116,14 +116,13 @@ export async function sendMailBlock(
         }
       )
       .catch((error: any) => {
+        console.log('send mail error')
         reject(error)
       })
   })
 }
 
 export async function getMail(accountId: string) {
-  console.log('get account', accountId)
   const res = await api.query.mail.mailMap(accountId)
-  console.log('get account res', res.toHuman())
   return res.toHuman()
 }

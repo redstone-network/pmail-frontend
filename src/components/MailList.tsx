@@ -60,7 +60,7 @@ function MailList({ type }: { type: Types }) {
         </div>
       ) : mailListData.length ? (
         <div className="px-4">
-          <div className="flex">
+          <div className="flex pb-2 border-b">
             <button className="iconBtn">
               <img className="iconImg" src={Compose} alt="" />
             </button>
