@@ -14,7 +14,6 @@ function MailList({ type }: { type: Types }) {
   const user = useAppSelector((state) => state.user)
   const [mailListData, setMailListData] = useState<(MailDetail | null)[]>([])
   const [loading, setLoading] = useState(true)
-  const [hasMore, setHasMore] = useState(true)
   async function fetchDetail(hash: string) {
     return await getMailDetail(hash)
   }
@@ -39,7 +38,6 @@ function MailList({ type }: { type: Types }) {
         )
         const res = [...mailListData, ...resDetails]
         setMailListData(res)
-        setHasMore(totalCount !== res.length)
         setLoading(false)
       }
     }

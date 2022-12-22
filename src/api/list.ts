@@ -19,54 +19,78 @@ type MailListRes = {
 }
 
 export async function getSendList(id: string): Promise<MailListRes> {
-  const rt = await client.query({
-    query: gql`
-      query queryMailList($fid: String!) {
-        mails(filter: { fromId: { equalTo: $fid } }) {
-          nodes {
-            id
-            from {
+  console.log('getSendList')
+  try {
+    const rt = await client.query({
+      query: gql`
+        query queryMailList($fid: String!) {
+          mails(filter: { fromId: { equalTo: $fid } }) {
+            nodes {
               id
-              type
+              from {
+                id
+                type
+              }
+              to {
+                id
+                type
+              }
+              hash
+              timestamp
             }
-            to {
-              id
-              type
-            }
-            hash
-            timestamp
+            totalCount
           }
-          totalCount
+        }
+      `,
+      variables: { fid: id }
+    })
+    return rt
+  } catch (e) {
+    return {
+      data: {
+        mails: {
+          nodes: [],
+          totalCount: 0
         }
       }
-    `,
-    variables: { fid: id }
-  })
-  return rt
+    }
+  }
 }
 export async function getMailList(id: string): Promise<MailListRes> {
-  const rt = await client.query({
-    query: gql`
-      query queryMailList($toid: String!) {
-        mails(filter: { toId: { equalTo: $toid } }) {
-          nodes {
-            id
-            from {
+  console.log('getMailList')
+  try {
+    const rt = await client.query({
+      query: gql`
+        query queryMailList($toid: String!) {
+          mails(filter: { toId: { equalTo: $toid } }) {
+            nodes {
               id
-              type
+              from {
+                id
+                type
+              }
+              to {
+                id
+                type
+              }
+              hash
+              timestamp
             }
-            to {
-              id
-              type
-            }
-            hash
-            timestamp
+            totalCount
           }
-          totalCount
+        }
+      `,
+      variables: { toid: id }
+    })
+    return rt
+  } catch (e) {
+    return {
+      data: {
+        mails: {
+          nodes: [],
+          totalCount: 0
         }
       }
-    `,
-    variables: { toid: id }
-  })
-  return rt
+    }
+  }
 }

@@ -36,30 +36,33 @@ export async function getChainInfo() {
 }
 
 export async function bindMail(name: string) {
-  await web3Enable(appName)
-  const injector = await web3FromAddress(User.address)
-
-  return new Promise((resolve, reject) => {
-    api.tx.mail
-      .bindAddress(name)
-      .signAndSend(
-        User.address,
-        { signer: injector.signer },
-        ({ events = [], status }) => {
-          if (status.isFinalized) {
-            resolve(true)
-            events.forEach(({ phase, event: { data, method, section } }) => {
-              console.log(
-                `${phase.toString()} : ${section}.${method} ${data.toString()}`
-              )
-            })
+  try {
+    await web3Enable(appName)
+    const injector = await web3FromAddress(User.address)
+    return new Promise((resolve, reject) => {
+      api.tx.mail
+        .bindAddress(name)
+        .signAndSend(
+          User.address,
+          { signer: injector.signer },
+          ({ events = [], status }) => {
+            if (status.isFinalized) {
+              resolve(true)
+              events.forEach(({ phase, event: { data, method, section } }) => {
+                console.log(
+                  `${phase.toString()} : ${section}.${method} ${data.toString()}`
+                )
+              })
+            }
           }
-        }
-      )
-      .catch((error: any) => {
-        reject(error)
-      })
-  })
+        )
+        .catch((error: any) => {
+          reject(error)
+        })
+    })
+  } catch (e) {
+    console.log('sss', e)
+  }
 }
 export async function doSetAlias(accountObj: any, alias: string) {
   await web3Enable(appName)
