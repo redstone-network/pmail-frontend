@@ -37,6 +37,7 @@ export async function getChainInfo() {
 
 export async function bindMail(name: string) {
   try {
+    const User = store.getState().user
     await web3Enable(appName)
     const injector = await web3FromAddress(User.address)
     return new Promise((resolve, reject) => {
@@ -65,6 +66,7 @@ export async function bindMail(name: string) {
   }
 }
 export async function doSetAlias(accountObj: any, alias: string) {
+  const User = store.getState().user
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
 
@@ -92,10 +94,9 @@ export async function sendMailBlock(
   uint: number,
   vec: string
 ) {
-  console.log('ddd', MailAddress, uint, vec)
+  const User = store.getState().user
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
-
   return new Promise((resolve, reject) => {
     console.log(MailAddress, uint, vec)
     api.tx.mail
