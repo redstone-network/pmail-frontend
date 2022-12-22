@@ -25,6 +25,8 @@ module.exports = {
       textBlack: '#000000',
       btnGary: '#E5E5E5',
       btnHoverGary: '#CCCCCC',
+      iconHoverGary: '#E6E6E6',
+      bgGray: '#F0F0F0',
       primary: '#D62EFF'
     },
     container: {

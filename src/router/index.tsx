@@ -9,6 +9,7 @@ import Sent from '@/views/Sent'
 import Login from '@/views/Login'
 import ShowMail from '@/views/ShowMail'
 import Contracts from '@/views/Contracts'
+import Empty from '@/components/Empty'
 
 export default function Router() {
   return (
@@ -26,6 +27,9 @@ export default function Router() {
           <Route index element={<Sent />}></Route>
           <Route path=":hash" element={<ShowMail />}></Route>
         </Route>
+        <Route path="drafts" element={<Empty />} />
+        <Route path="spam" element={<Empty />} />
+        <Route path="trash" element={<Empty />} />
         <Route path="contracts" element={<Contracts />} />
       </Route>
       <Route path="*" element={<NotFund />} />

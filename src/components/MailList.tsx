@@ -1,11 +1,18 @@
 /* eslint-disable tailwindcss/classnames-order */
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { getMailList, getSendList } from '@/api/list'
 import { useAppSelector } from '@/hooks'
 import type { MailDetail } from '@/api/index'
 import Empty from '@/assets/empty.png'
 import { getMailDetail } from '@/api'
 import { Spinner } from 'flowbite-react'
+import Account from '@/assets/account.png'
+import Compose from '@/assets/icons/compose-gray.png'
+import Drafts from '@/assets/icons/drafts-gray.png'
+import Inbox from '@/assets/icons/inbox-gray.png'
+import Replay from '@/assets/icons/reply.png'
+import Send from '@/assets/icons/sent-gray.png'
+import Spam from '@/assets/icons/spam-gray.png'
+import Trash from '@/assets/icons/trash-gray.png'
 export enum Types {
   SEND = 1,
   INBOX = 2
@@ -53,6 +60,29 @@ function MailList({ type }: { type: Types }) {
         </div>
       ) : mailListData.length ? (
         <div className="px-4">
+          <div className="flex">
+            <button className="iconBtn">
+              <img className="iconImg" src={Compose} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Inbox} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Send} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Replay} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Drafts} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Spam} alt="" />
+            </button>
+            <button className="iconBtn">
+              <img className="iconImg" src={Trash} alt="" />
+            </button>
+          </div>
           {mailListData.map(
             (item) =>
               item && (
@@ -61,13 +91,18 @@ function MailList({ type }: { type: Types }) {
                   onClick={() => ShowMail(item.hash)}
                   className="flex items-center py-2 transition-all border-b border-solid cursor-pointer hover:shadow-md"
                 >
+                  <div className="mr-2.5">
+                    <img className="w-30 h-30" src={Account} alt="" />
+                  </div>
                   <div className="w-40 pl-2 mr-4 truncate shrink-0">
                     {item.subject}
                   </div>
                   <div className="w-40 truncate shrink grow text-grayText">
                     {item.toAddress}
                   </div>
-                  <div className="w-40 ml-8 shrink-0">{item.time}</div>
+                  <div className="w-40 ml-8 text-textBlue shrink-0">
+                    {item.time}
+                  </div>
                 </div>
               )
           )}
