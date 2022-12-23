@@ -68,7 +68,7 @@ export async function doSetAlias(accountObj: any, alias: string) {
   await web3Enable(appName)
   const injector = await web3FromAddress(User.address)
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     api.tx.mail
       .setAlias(accountObj, alias)
       .signAndSend(
@@ -85,6 +85,9 @@ export async function doSetAlias(accountObj: any, alias: string) {
           }
         }
       )
+      .catch((error: any) => {
+        reject(error)
+      })
   })
 }
 export async function sendMailBlock(

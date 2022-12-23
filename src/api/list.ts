@@ -24,10 +24,24 @@ export interface Mail {
   id: string
   timestamp: string
 }
+export interface Alias {
+  alias: string
+  id: string
+  addr: { type: string; id: string; mailaddress: string }
+  owner: { address: string; id: string }
+}
 type MailListRes = {
   data: {
     mails: {
       nodes: Mail[]
+      totalCount: number
+    }
+  }
+}
+type AliasListRes = {
+  data: {
+    contacts: {
+      nodes: Alias[]
       totalCount: number
     }
   }
@@ -100,6 +114,43 @@ export async function getMailList(id: string): Promise<MailListRes> {
     return {
       data: {
         mails: {
+          nodes: [],
+          totalCount: 0
+        }
+      }
+    }
+  }
+}
+export async function getAliasList(id: string): Promise<AliasListRes> {
+  try {
+    const rt = await client.query({
+      query: gql`
+        query MyQuery2($oid: String!) {
+          contacts(filter: { ownerId: { equalTo: $oid } }) {
+            nodes {
+              id
+              owner {
+                id
+                address
+              }
+              addr {
+                id
+                type
+                mailaddress
+              }
+              alias
+            }
+            totalCount
+          }
+        }
+      `,
+      variables: { oid: id }
+    })
+    return rt
+  } catch (e) {
+    return {
+      data: {
+        contacts: {
           nodes: [],
           totalCount: 0
         }

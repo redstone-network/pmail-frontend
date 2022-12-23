@@ -1,94 +1,127 @@
 /* eslint-disable tailwindcss/classnames-order */
 import addIcon from '@/assets/add.png'
 import accountIcon from '@/assets/account.png'
-import { Button, Dropdown, Label, Modal, TextInput } from 'flowbite-react'
+import { Button, Label, Modal, Spinner, TextInput } from 'flowbite-react'
 import { doSetAlias } from '@/api/substrate'
+import { getAddressType } from '@/utils/index'
+import { toast } from 'react-toastify'
+import { getAliasList } from '@/api/list'
+import { useAppSelector } from '@/hooks'
 
-interface TypeItem {
-  value: string
-  label: string
-}
 function Contracts(): JSX.Element {
-  const [activeType, setActiveType] = useState<TypeItem | null>(null)
-  const [alias, setAlias] = useState('')
+  const user = useAppSelector((state) => state.user)
   const [addDlgOpen, setAddDlgOpen] = useState(false)
   const [name, setName] = useState('')
-  const selectItem = (activeType: TypeItem) => {
-    setActiveType(activeType)
+  const [nameTip, setNameTip] = useState('')
+  const [alias, setAlias] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [aliasTip, setAliasTip] = useState('')
+  const [concatList, setConcatList] = useState<
+    { name: string; address: string }[]
+  >([])
+  const fetchAliasList = async () => {
+    const { data } = await getAliasList(user.address)
+    const list = data?.contacts?.nodes ?? []
+    const conList = list.map((item) => ({
+      name: item.alias,
+      address: item.addr.mailaddress
+    }))
+    setConcatList(conList)
   }
-  const typeList: TypeItem[] = [
-    {
-      value: 'NormalAddr',
-      label: 'web2 Address'
-    },
-    {
-      value: 'ETHAddr',
-      label: 'EHT Address'
-    },
-    {
-      value: 'SubAddr',
-      label: 'Substrate Address'
-    }
-  ]
+  useEffect(() => {
+    fetchAliasList()
+  }, [])
   const submit = async () => {
-    if (!activeType) {
+    if (!name) {
+      setNameTip('Please input your name')
+      return
+    }
+    if (getAddressType(name) === null) {
+      setNameTip('Invalid name found, please check your name')
+      return
+    }
+    if (!alias) {
+      setAliasTip('Please input your alias')
       return
     }
     const accountObj = {} as any
-    accountObj[activeType.value] = name
-    await doSetAlias(accountObj, alias)
-    setAddDlgOpen(false)
+    const type = getAddressType(name)!
+    accountObj[type] = name
+    setLoading(true)
+    try {
+      await doSetAlias(accountObj, alias)
+      setAddDlgOpen(false)
+      setNameTip('')
+      setAliasTip('')
+      toast.success('bind name successful', {
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
+      setLoading(false)
+      fetchAliasList()
+    } catch (e) {
+      setNameTip('')
+      setAliasTip('')
+      setLoading(false)
+      toast.error('bind name fail', {
+        autoClose: 2000,
+        isLoading: false,
+        pauseOnFocusLoss: false,
+        hideProgressBar: true,
+        closeButton: false
+      })
+    }
   }
   return (
     <>
       <div className="h-full py-4 bg-white rounded-lg shadow">
         <div className="p-4 border-b">
           <button
-            onClick={() => setAddDlgOpen(true)}
+            onClick={() => {
+              setName('')
+              setAlias('')
+              setNameTip('')
+              setAliasTip('')
+              setLoading(false)
+              setAddDlgOpen(true)
+            }}
             className="flex items-center justify-center w-16 h-16 transition rounded-full bg-btnBlue hover:bg-btnHoverBlue"
           >
             <img className="h-9 w-9" src={addIcon} alt="" />
           </button>
         </div>
         <div className="pl-14">
-          <div className="flex items-center py-2 text-sm border-b cursor-pointer hover:bg-background">
-            <div className="mr-14">
-              <img className="h-30 w-30" src={accountIcon} alt="" />
+          {concatList.map((item) => (
+            <div
+              key={item.address}
+              className="flex items-center py-2 text-sm border-b cursor-pointer hover:bg-background"
+            >
+              <div className="mr-14">
+                <img className="h-30 w-30" src={accountIcon} alt="" />
+              </div>
+              <div>
+                <div className="pb-1 font-bold">{item.name}</div>
+                <div>{item.address}</div>
+              </div>
             </div>
-            <div>
-              <div className="pb-1 font-bold">Michael Jordan</div>
-              <div>1231woeijfiwno324onfoiew@pmail.io</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-      <Modal show={addDlgOpen}>
+      <Modal show={addDlgOpen} onClose={() => setAddDlgOpen(false)}>
         <Modal.Header>Add Contract</Modal.Header>
         <Modal.Body>
-          <div className="block mb-2">
-            <Label htmlFor="countries" value="Select your country" />
+          <div className="block mb-2 text-base">
+            <Label htmlFor="countries" value="your country" />
           </div>
-          <div className="flex">
-            <Dropdown
-              className="w-40"
-              label={activeType ? activeType.label : 'Account Type'}
-            >
-              {typeList.map((item) => (
-                <Dropdown.Item
-                  key={item.value}
-                  onClick={() => selectItem(item)}
-                >
-                  {item.label}
-                </Dropdown.Item>
-              ))}
-            </Dropdown>
-            <TextInput
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="ml-14"
-              placeholder=""
-            />
-          </div>
+          <TextInput
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="input polkadot address or Eht address or web2 address"
+          />
+          <div className="px-2 text-xs text-red-500 h-14">{nameTip}</div>
           <div>
             <div className="block mb-2">
               <Label value="Your Alias" />
@@ -98,11 +131,26 @@ function Contracts(): JSX.Element {
               onChange={(e) => setAlias(e.target.value)}
               placeholder="alias"
             />
+            <div className="px-2 text-xs text-red-500 h-14">{aliasTip}</div>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button gradientMonochrome="info" onClick={submit} color="gray">
-            Submit
+          <Button
+            disabled={loading}
+            gradientMonochrome="info"
+            onClick={submit}
+            color="gray"
+          >
+            {loading ? (
+              <>
+                <div className="mr-3">
+                  <Spinner size="sm" />
+                </div>
+                Loading ...
+              </>
+            ) : (
+              'Submit'
+            )}
           </Button>
         </Modal.Footer>
       </Modal>

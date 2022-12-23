@@ -10,24 +10,8 @@ import { useAppSelector } from '@/hooks'
 import { editorModules } from './Editor/editor'
 import { toast, Id } from 'react-toastify'
 import { RxFileText, RxTrash } from 'react-icons/rx'
+import { getAddressType } from '@/utils/index'
 
-const enum TYPES {
-  NormalAddr = 'NormalAddr',
-  ETHAddr = 'ETHAddr',
-  SubAddr = 'SubAddr'
-}
-
-function getAddressType(address: string): TYPES | null {
-  if (/^5\w{47}$/.test(address)) {
-    return TYPES.SubAddr
-  } else if (/^0x[0-9a-f]{40}$/.test(address)) {
-    return TYPES.ETHAddr
-  } else if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(address)) {
-    return TYPES.NormalAddr
-  } else {
-    return null
-  }
-}
 function Home(): JSX.Element {
   const user = useAppSelector((state) => state.user)
   const toastId = useRef<Id | null>(null)
