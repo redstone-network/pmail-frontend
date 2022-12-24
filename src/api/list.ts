@@ -14,8 +14,9 @@ const defaultOptions: DefaultOptions = {
     errorPolicy: 'all'
   }
 }
+const SUBQL_URL = import.meta.env.VITE_SUBQL_URL
 const client = new ApolloClient({
-  uri: 'http://127.0.0.1:3001/',
+  uri: SUBQL_URL,
   cache: new InMemoryCache(),
   defaultOptions: defaultOptions
 })

@@ -1,17 +1,12 @@
 import { ApiPromise, WsProvider } from '@polkadot/api'
 import { Keyring } from '@polkadot/keyring'
 import { store } from '@store/index'
-import {
-  web3Accounts,
-  web3Enable,
-  web3FromAddress
-} from '@polkadot/extension-dapp'
-import { rejects } from 'assert'
+import { web3Enable, web3FromAddress } from '@polkadot/extension-dapp'
 
 const appName = import.meta.env.VITE_APP_NAME
-const wsProvider = new WsProvider('ws://127.0.0.1:9944')
+const nodeUrl = import.meta.env.VITE_SUBSTRATE_URL
+const wsProvider = new WsProvider(nodeUrl)
 const api = await ApiPromise.create({ provider: wsProvider })
-const User = store.getState().user
 export function getUser(userName: string) {
   const keyring = new Keyring({ type: 'sr25519' })
   const user = keyring.addFromUri(`//${userName}`)

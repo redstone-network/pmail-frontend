@@ -17,7 +17,7 @@ export default function Router() {
       <Route path="home" element={<Home />} />
       <Route path="login" element={<Login />} />
       <Route path="/" element={<Layout />}>
-        <Route index element={<Navigate to="/login" />} />
+        <Route index element={<Navigate to="/inbox" />} />
         <Route path="inbox">
           <Route index element={<Inbox />}></Route>
           <Route path=":hash" element={<ShowMail />}></Route>

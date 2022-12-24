@@ -7,6 +7,7 @@ import { getAddressType } from '@/utils/index'
 import { toast } from 'react-toastify'
 import { getAliasList } from '@/api/list'
 import { useAppSelector } from '@/hooks'
+import Empty from '@/components/Empty'
 
 function Contracts(): JSX.Element {
   const user = useAppSelector((state) => state.user)
@@ -93,21 +94,24 @@ function Contracts(): JSX.Element {
             <img className="h-9 w-9" src={addIcon} alt="" />
           </button>
         </div>
-        <div className="pl-14">
-          {concatList.map((item) => (
-            <div
-              key={item.address}
-              className="flex items-center py-2 text-sm border-b cursor-pointer hover:bg-background"
-            >
-              <div className="mr-14">
-                <img className="h-30 w-30" src={accountIcon} alt="" />
+        <div className="h-full">
+          {concatList.length === 0 && <Empty></Empty>}
+          <div className="pl-14">
+            {concatList.map((item) => (
+              <div
+                key={item.address}
+                className="flex items-center py-2 text-sm border-b cursor-pointer hover:bg-background"
+              >
+                <div className="mr-14">
+                  <img className="h-30 w-30" src={accountIcon} alt="" />
+                </div>
+                <div>
+                  <div className="pb-1 font-bold">{item.name}</div>
+                  <div>{item.address}</div>
+                </div>
               </div>
-              <div>
-                <div className="pb-1 font-bold">{item.name}</div>
-                <div>{item.address}</div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       <Modal show={addDlgOpen} onClose={() => setAddDlgOpen(false)}>
