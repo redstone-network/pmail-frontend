@@ -26,3 +26,6 @@
 .iconImg {
   @apply w-5 h-5;
 }
+.btn-login {
+  @apply flex px-9 py-2.5 mx-auto text-lg text-center text-white rounded-full bg-btnBlue hover:bg-btnHoverBlue;
+}

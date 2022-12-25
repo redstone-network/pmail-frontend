@@ -1,15 +1,19 @@
+/* eslint-disable tailwindcss/no-custom-classname */
+/* eslint-disable prettier/prettier */
 /* eslint-disable tailwindcss/classnames-order */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import { setName, setAddress } from '@/store/user'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { useNavigate } from 'react-router-dom'
 import logo from '@assets/PMaiLogo.png'
-import text from '@assets/text.png'
+import PM from '@assets/PM.png'
+import LinkIcon from '@assets/icons/link.png'
+import Safe from '@assets/icons/safe.png'
+import Bit from '@assets/icons/bit.png'
 import media from '@assets/media.png'
 import discord from '@assets/discord.png'
 import telegram from '@assets/telegram.png'
 import twitter from '@assets/twitter.png'
-import Polkadotlogo from '@assets/Polkadotlogo.png'
 import { GiCheckMark } from 'react-icons/gi'
 import accountImg from '@assets/account.png'
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types'
@@ -39,10 +43,6 @@ function Login() {
     }
   }, [user])
 
-  const [accountsNotFound, setAccountsNotFound] = useState(false)
-  const [isAccountLoading, setIsAccountLoading] = useState(true)
-  const [extensionNotFound, setExtensionNotFound] = useState(false)
-
   const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([])
   const [accountModalShow, setAccountModalShow] = useState(false)
   const closeModal = () => setAccountModalShow(false)
@@ -63,23 +63,13 @@ function Login() {
     const extensions = await web3Enable(appName)
 
     if (extensions.length === 0) {
-      setExtensionNotFound(true)
-      setIsAccountLoading(false)
       return
-    } else {
-      setExtensionNotFound(false)
     }
-
     const accounts = await web3Accounts()
     if (accounts.length === 0) {
-      setAccountsNotFound(true)
-      setIsAccountLoading(false)
       return
-    } else {
-      setAccountsNotFound(false)
     }
     setAccounts(accounts)
-    setIsAccountLoading(false)
     setSelectedInfo({
       name: user.name,
       address: user.address
@@ -89,25 +79,48 @@ function Login() {
   }
   return (
     <>
-      <div className="flex items-center justify-center w-full h-full bg-white bg-center bg-no-repeat bg-contain bg-hero-pattern ">
+      <div className="relative flex items-center justify-center w-full h-full bg-white bg-center bg-no-repeat bg-contain bg-login-bg ">
+        <div className="absolute top-0 left-0 flex justify-between w-full">
+          <div className="pt-4 pl-4">
+            <img className="w-196" src={PM} alt="" />
+          </div>
+          <div className="pt-4 pr-5">
+            <button className="btn-login" onClick={getAccounts}>Connect Wallet</button>
+          </div>
+        </div>
         <div className="flex flex-col items-center justify-between h-full mx-auto w-951">
-          <div className="h-418">
-            <div className="pt-16">
-              <img className="mx-auto w-256" src={logo} alt="" />
+          <div>
+            <div className="pt-178">
+              <img className="h-20 mx-auto" src={logo} alt="" />
             </div>
-            <div className="pt-12">
-              <img className="mx-auto w-363" src={text} alt="" />
+            <div className="font-sans pt-30 text-textBlack">
+              <div className="text-center text-50">The Next Generation Email</div>
+              <div className="pt-2 text-lg text-center">Meet web3 Email - It’s safer, cleaner, and simply better!</div>
+              <button className="btn-login mt-9" >Sign up for free</button>
+              <div className="flex pt-20">
+                <div className="mr-16 text-center transition rounded-md cursor-pointer bg-bgBlue w-188 h-188 hover:shadow-md">
+                  <img className="inline-block w-10 h-10 mt-3.5 mb-5" src={LinkIcon} alt="" />
+                  <div className="pb-2 font-sans text-base font-bold leading-none ">Email aggregation</div>
+                  <div className="pl-5 font-sans text-base leading-5 text-left">Send/receive Emails between web2 Emails and web3 Emails of different protocols.</div>
+                </div>
+                <div className="mr-16 text-center transition rounded-md hover:shadow-md bg-bgBlue w-188 h-188">
+                  <img className="inline-block w-10 h-10 mt-3.5 mb-5" src={Bit} alt="" />
+                  <div className="pb-2 font-sans text-base font-bold leading-none ">Asset transaction</div>
+                  <div className="pl-5 font-sans text-base leading-5 text-left ">Better way of airdrop, and private asset transactions.</div>
+                </div>
+                <div className="mr-16 text-center transition rounded-md hover:shadow-md bg-bgBlue w-188 h-188">
+                  <img className="inline-block w-7 h-10 mt-3.5 mb-5" src={Safe} alt="" />
+                  <div className="pb-2 font-sans text-base font-bold leading-none ">Email encryption</div>
+                  <div className="pl-5 font-sans text-base leading-5 text-left ">Public, private and decentralized Emails.</div>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex px-2 py-3 mx-auto text-center rounded-full w-44 bg-grayText bg-opacity-40">
-            <img className="w-6 h-6 mr-4" src={Polkadotlogo} alt="" />
-            <button onClick={getAccounts}>Connect Wallet</button>
-          </div>
-          <div className="flex pb-20">
-            <img className="mr-7 h-7 w-7" src={twitter} alt="" />
-            <img className="mr-7 h-7 w-7" src={discord} alt="" />
-            <img className="mr-7 h-7 w-7" src={media} alt="" />
-            <img className="h-7 w-7" src={telegram} alt="" />
+          <div className="flex pb-5">
+            <img className="w-10 h-10 mr-6" src={twitter} alt="" />
+            <img className="w-10 h-10 mr-6" src={discord} alt="" />
+            <img className="w-10 h-10 mr-6" src={media} alt="" />
+            <img className="w-10 h-10" src={telegram} alt="" />
           </div>
         </div>
       </div>

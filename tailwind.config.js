@@ -20,9 +20,10 @@ module.exports = {
       white: 'var(--white)',
       borderGray: 'var(--gray)',
       textBlue: '#2D69D2',
+      bgBlue: '#E3E3FF',
       btnBlue: '#2526D9',
       btnHoverBlue: '#1D1D9E',
-      textBlack: '#000000',
+      textBlack: '#1A1A1A',
       btnGary: '#E5E5E5',
       btnHoverGary: '#CCCCCC',
       iconHoverGary: '#E6E6E6',
@@ -37,7 +38,8 @@ module.exports = {
       sm: ['14px', '15px'],
       base: ['16px', '24px'],
       lg: ['20px', '28px'],
-      xl: ['24px', '32px']
+      xl: ['24px', '32px'],
+      50: ['50px', '50px']
     },
     extend: {
       spacing: {
@@ -49,10 +51,12 @@ module.exports = {
         50: '50px',
         951: '951px',
         363: '363px',
-        418: '418px'
+        196: '196px',
+        188: '188px',
+        178: '19.3vh'
       },
       backgroundImage: {
-        'hero-pattern': "url('/src/assets/background.png')"
+        'login-bg': "url('/src/assets/bg.png')"
       }
     }
   },
