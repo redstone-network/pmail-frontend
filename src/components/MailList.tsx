@@ -110,7 +110,7 @@ function MailList({ type }: { type: Types }) {
       ) : (
         <div className="flex flex-col items-center justify-center h-full">
           <img className="w-20 h-20 mb-4" src={Empty} />
-          <div className="text-grayText">It’s&apos; empty</div>
+          <div className="text-grayText">It’s empty</div>
         </div>
       )}
     </div>

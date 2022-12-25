@@ -97,7 +97,7 @@ function Login() {
               <div className="text-center text-50">The Next Generation Email</div>
               <div className="pt-2 text-lg text-center">Meet web3 Email - It’s safer, cleaner, and simply better!</div>
               <button className="btn-login mt-9" >Sign up for free</button>
-              <div className="flex pt-20">
+              <div className="flex justify-center pt-20">
                 <div className="mr-16 text-center transition rounded-md cursor-pointer bg-bgBlue w-188 h-188 hover:shadow-md">
                   <img className="inline-block w-10 h-10 mt-3.5 mb-5" src={LinkIcon} alt="" />
                   <div className="pb-2 font-sans text-base font-bold leading-none ">Email aggregation</div>
@@ -108,7 +108,7 @@ function Login() {
                   <div className="pb-2 font-sans text-base font-bold leading-none ">Asset transaction</div>
                   <div className="pl-5 font-sans text-base leading-5 text-left ">Better way of airdrop, and private asset transactions.</div>
                 </div>
-                <div className="mr-16 text-center transition rounded-md hover:shadow-md bg-bgBlue w-188 h-188">
+                <div className="text-center transition rounded-md hover:shadow-md bg-bgBlue w-188 h-188">
                   <img className="inline-block w-7 h-10 mt-3.5 mb-5" src={Safe} alt="" />
                   <div className="pb-2 font-sans text-base font-bold leading-none ">Email encryption</div>
                   <div className="pl-5 font-sans text-base leading-5 text-left ">Public, private and decentralized Emails.</div>
