@@ -36,3 +36,6 @@
 .ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item .ant-upload-list-item-thumbnail .anticon svg {
   display: none!important;
 }
+.ant-upload-wrapper .ant-upload-drag{
+  height: 162px;
+}

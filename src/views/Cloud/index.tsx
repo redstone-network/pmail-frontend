@@ -16,7 +16,8 @@ function Cloud() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const user = useAppSelector((state) => state.user)
   const [loading, setLoading] = useState(false)
-
+  const toastId = useRef<Id | null>(null)
+  const [isEmpty, setIsEmpty] = useState(false)
   function getDefaultFileList() {
     if (user.address && window.localStorage.getItem(user.address)) {
       const fileListString = window.localStorage.getItem(user.address)
@@ -24,6 +25,14 @@ function Cloud() {
     }
     return []
   }
+  useEffect(() => {
+    if (getDefaultFileList().length) {
+      setIsEmpty(false)
+      return
+    }
+    setIsEmpty(true)
+  }, [fileList])
+
   const props: UploadProps = {
     name: 'file',
     multiple: true,
@@ -31,27 +40,26 @@ function Cloud() {
       return `/api/storage/${file.uid}`
     },
     beforeUpload: () => {
+      toastId.current = toast.loading('Please wait....', {
+        pauseOnFocusLoss: false
+      })
       return transfer()
-    },
-    onRemove: (file) => {
-      setLoading(false)
-      const index = fileList.indexOf(file);
-      const newFileList = fileList.slice();
-      newFileList.splice(index, 1);
-      setFileList(newFileList);
-      window.localStorage.setItem(user.address, JSON.stringify(newFileList))
     },
     showUploadList: {
       showDownloadIcon: true,
       showPreviewIcon: false,
       showRemoveIcon: true,
     },
-    onChange:async (info) => {
-      setLoading(true)
+    onChange: async (info) => {
       const { status } = info.file;
+      if (status === 'uploading') {
+        setLoading(true)
+      }
       if (status === 'done') {
         setLoading(false)
-        toast.success(`${info.file.name} file uploaded successfully.`, {
+        toast.update(toastId.current, {
+          render: `${info.file.name} file uploaded successfully.`,
+          type: toast.TYPE.SUCCESS,
           autoClose: 2000,
           isLoading: false,
           pauseOnFocusLoss: false,
@@ -62,7 +70,9 @@ function Cloud() {
         window.localStorage.setItem(user.address, JSON.stringify(info.fileList))
       } else if (status === 'error') {
         setLoading(false)
-        toast.error(`${info.file.name} file upload failed.`, {
+        toast.update(toastId.current, {
+          render: `${info.file.name} file upload failed.`,
+          type: toast.TYPE.ERROR,
           autoClose: 2000,
           isLoading: false,
           pauseOnFocusLoss: false,
@@ -70,6 +80,12 @@ function Cloud() {
           closeButton: false
         })
       }
+      window.localStorage.setItem(user.address, JSON.stringify(info.fileList))
+      if (getDefaultFileList().length) {
+        setIsEmpty(false)
+        return
+      }
+      setIsEmpty(true)
     },
     defaultFileList: getDefaultFileList(),
     progress: {
@@ -85,7 +101,6 @@ function Cloud() {
       return false
     },
     onDownload: (file) => {
-      console.log(file)
       downloadFile(file.response.data, file.name)
       return false
     },
@@ -98,20 +113,25 @@ function Cloud() {
     }
 
   return (
-    <div className="h-full rounded-lg bg-white pt-8 shadow overflow-scroll">
+    <div className="h-full rounded-lg bg-white pt-8 flex flex-col shadow overflow-scroll">
       <div className="px-8">
         <Dragger {...props}>
           <p className="pt-7 pb-6 flex justify-center ">
             <img className="w-9 h-9" src={Cupload} alt="" />
           </p>
-          <p className="text-lg lining-5 text-textBlack font-bold	 font-sans">
+          <p className="text-base lining-5 text-textBlack leading-4	 font-bold	 font-sans">
             Click or drag file to this area to upload
           </p>
-          <p className="text-lg lining-5 pb-2 text-textBlack font-sans">
+          <p className="text-base lining-5 pb-2 text-textBlack leading-4 font-sans">
             Support for a single or bulk upload
           </p>
         </Dragger>
       </div>
+      {!loading && !fileList.length && !getDefaultFileList().length && (
+        <div className="grow">
+          {!loading && isEmpty &&<Empty></Empty>}
+        </div>
+      )}
     </div>
   )
 }
