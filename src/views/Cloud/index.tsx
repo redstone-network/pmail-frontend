@@ -7,6 +7,7 @@ const { Dragger } = Upload
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { useAppSelector } from '@/hooks'
 import { downloadFile } from '@/api/index'
+import {transfer} from '@/api/substrate'
 import { toast } from 'react-toastify'
 import Empty from '@/components/Empty'
 import './index.css'
@@ -29,6 +30,9 @@ function Cloud() {
     action: (file) => {
       return `/api/storage/${file.uid}`
     },
+    beforeUpload: () => {
+      return transfer()
+    },
     onRemove: (file) => {
       setLoading(false)
       const index = fileList.indexOf(file);
@@ -42,7 +46,7 @@ function Cloud() {
       showPreviewIcon: false,
       showRemoveIcon: true,
     },
-    onChange(info) {
+    onChange:async (info) => {
       setLoading(true)
       const { status } = info.file;
       if (status === 'done') {
@@ -107,7 +111,6 @@ function Cloud() {
             Support for a single or bulk upload
           </p>
         </Dragger>
-        {!loading && !(fileList.length || getDefaultFileList().length) && <Empty></Empty>}
       </div>
     </div>
   )
