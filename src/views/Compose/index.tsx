@@ -3,7 +3,7 @@
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import './Editor/Editor.css'
-import { uploadMail } from '@/api/index'
+import { uploadFile } from '@/api/index'
 import { nanoid } from 'nanoid'
 import { sendMailBlock } from '@/api/substrate'
 import { useAppSelector } from '@/hooks'
@@ -72,7 +72,7 @@ function Home(): JSX.Element {
       timestampe: now.getTime()
     }
     try {
-      const { code, data } = await uploadMail<string>(uuid, body)
+      const { code, data } = await uploadFile<string>(uuid, body)
 
       if (code === 0 && data) {
         const timestamp = new Date().getTime()
