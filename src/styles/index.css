@@ -30,7 +30,7 @@
   @apply flex px-9 py-2.5 mx-auto text-lg text-center text-white rounded-full bg-btnBlue hover:bg-btnHoverBlue;
 }
 .card {
-  @apply text-center transition rounded-md cursor-pointer bg-bgBlue w-196 h-196 hover:shadow-md;
+  @apply text-center transition rounded-md cursor-pointer bg-bgBlue w-196 pb-4 hover:shadow-md;
 }
 .card_img {
   @apply inline-block w-10 h-10 mt-3.5 mb-5;

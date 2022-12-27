@@ -79,7 +79,7 @@ function Login() {
   }
   return (
     <>
-      <div className="relative flex items-center justify-center w-full h-full bg-white bg-center bg-no-repeat bg-contain bg-login-bg ">
+      <div className="relative flex items-center justify-center w-full h-full min-h-screen bg-white bg-center bg-no-repeat bg-contain bg-login-bg ">
         <div className="absolute top-0 left-0 flex justify-between w-full">
           <div className="pt-4 pl-4">
             <img className="w-196" src={PM} alt="" />
