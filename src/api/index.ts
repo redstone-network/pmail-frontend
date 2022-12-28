@@ -5,8 +5,8 @@ import { saveAs } from 'file-saver'
 import Axios from 'axios'
 
 interface User {
-  name: string
-  address: string
+  Name: string
+  Address: string
 }
 interface MailInfo {
   subject: string
