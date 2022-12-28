@@ -8,7 +8,7 @@ import type { UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { useAppSelector } from '@/hooks'
 import { downloadFile } from '@/api/index'
 import {transfer} from '@/api/substrate'
-import { toast } from 'react-toastify'
+import { Id, toast } from 'react-toastify'
 import Empty from '@/components/Empty'
 import './index.css'
 
@@ -57,7 +57,7 @@ function Cloud() {
       }
       if (status === 'done') {
         setLoading(false)
-        toast.update(toastId.current, {
+        toast.update(toastId.current!, {
           render: `${info.file.name} file uploaded successfully.`,
           type: toast.TYPE.SUCCESS,
           autoClose: 2000,
@@ -70,7 +70,7 @@ function Cloud() {
         window.localStorage.setItem(user.address, JSON.stringify(info.fileList))
       } else if (status === 'error') {
         setLoading(false)
-        toast.update(toastId.current, {
+        toast.update(toastId.current!, {
           render: `${info.file.name} file upload failed.`,
           type: toast.TYPE.ERROR,
           autoClose: 2000,
@@ -113,16 +113,16 @@ function Cloud() {
     }
 
   return (
-    <div className="h-full rounded-lg bg-white pt-8 flex flex-col shadow overflow-scroll">
+    <div className="flex flex-col h-full pt-8 overflow-scroll bg-white rounded-lg shadow">
       <div className="px-8">
         <Dragger {...props}>
-          <p className="pt-7 pb-6 flex justify-center ">
+          <p className="flex justify-center pb-6 pt-7 ">
             <img className="w-9 h-9" src={Cupload} alt="" />
           </p>
-          <p className="text-base lining-5 text-textBlack leading-4	 font-bold	 font-sans">
+          <p className="font-sans text-base font-bold leading-4 lining-5 text-textBlack">
             Click or drag file to this area to upload
           </p>
-          <p className="text-base lining-5 pb-2 text-textBlack leading-4 font-sans">
+          <p className="pb-2 font-sans text-base leading-4 lining-5 text-textBlack">
             Support for a single or bulk upload
           </p>
         </Dragger>

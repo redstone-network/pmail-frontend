@@ -41,8 +41,8 @@ function Inbox() {
       dispatch(setMail(`${name}`))
       setBindShow(false)
       setBindLoading(false)
-    } catch (e) {
-      const errString = e.toString()
+    } catch (e: unknown) {
+      const errString = (e as Error).toString()
       if (errString === 'Error: Cancelled') {
         setTipInfo('Cancelled')
         setShowTip(true)

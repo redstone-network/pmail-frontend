@@ -4,6 +4,7 @@ import type { ConfigEnv } from 'vite'
 import { resolve } from 'path'
 import AutoImport from 'unplugin-auto-import/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import topLevelAwait from "vite-plugin-top-level-await"
 
 export default ({ mode }: ConfigEnv) => {
   return defineConfig({
@@ -22,6 +23,12 @@ export default ({ mode }: ConfigEnv) => {
           enabled: true,
           filepath: './.eslintrc-auto-import.json'
         }
+      }),
+      topLevelAwait({
+        // The export name of top-level await promise for each chunk module
+        promiseExportName: "__tla",
+        // The function to generate import names of top-level await promise in each chunk module
+        promiseImportName: i => `__tla_${i}`
       })
     ],
     mode: mode,
