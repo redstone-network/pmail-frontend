@@ -43,6 +43,7 @@ export function uploadFile<T>(
   body: MailInfo
 ): Promise<Res<T>> {
   return request({
+    baseURL: import.meta.env.VITE_STORAGE_URL,
     url: `/api/storage/${filename}`,
     method: 'POST',
     data: body
@@ -54,9 +55,6 @@ export async function downloadFile(
 ) {
   const res = await Axios({
     baseURL: import.meta.env.VITE_STORAGE_URL,
-    headers: {
-      'Access-Control-Request-Headers': '*',
-    },
     url: `/api/storage/raw/${hash}`,
     method: 'GET',
     responseType: 'blob',
@@ -69,9 +67,6 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
   try {
     const obj: any = await request({
       baseURL: import.meta.env.VITE_STORAGE_URL,
-      headers: {
-        'Access-Control-Request-Headers': '*',
-      },
       url: `/api/storage/raw/${hash}`,
       method: 'GET'
     })
