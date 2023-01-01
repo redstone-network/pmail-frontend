@@ -50,11 +50,11 @@ module.exports = {
         117: '117px',
         236: '236px',
         50: '50px',
-        951: '951px',
+        845: '845px',
         363: '363px',
         196: '196px',
         188: '188px',
-        178: '19.3vh'
+        178: '178px'
       },
       backgroundImage: {
         'login-bg': "url('/src/assets/bg.png')"
