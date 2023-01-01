@@ -1,4 +1,4 @@
-import logo from '@/assets/logo.png'
+import logo from '@/assets/logo-x2.svg'
 import compose from '@/assets/icons/compose.png'
 import inbox from '@/assets/icons/inbox.png'
 import sent from '@/assets/icons/sent.png'
