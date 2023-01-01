@@ -79,7 +79,7 @@ function Login() {
   }
   return (
     <>
-      <div className="relative flex items-center justify-center w-full h-full min-h-screen bg-white bg-center bg-no-repeat bg-contain bg-login-bg ">
+      <div className="relative w-full min-h-screen bg-white bg-center bg-no-repeat overflow-auto bg-contain">
         <div className="absolute top-0 left-0 flex justify-between w-full">
           <div className="pt-4 pl-4">
             <img className="w-196" src={PM} alt="" />
@@ -88,7 +88,7 @@ function Login() {
             <button className="btn-login" onClick={getAccounts}>Connect Wallet</button>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-between h-full mx-auto w-951">
+        <div className="flex flex-col items-center bg-login-bg bg-contain justify-between mx-auto w-845">
           <div>
             <div className="pt-178">
               <img className="h-20 mx-auto" src={logo} alt="" />
@@ -97,7 +97,7 @@ function Login() {
               <div className="text-center text-50">The Next Generation Email</div>
               <div className="pt-2 text-lg text-center">Meet web3 Email - It’s safer, cleaner, and simply better!</div>
               <button className="btn-login mt-9" >Sign up for free</button>
-              <div className="flex justify-center pt-16">
+              <div className="flex justify-center pt-20">
                 <div className="mr-16 card">
                   <img className="card_img" src={LinkIcon} alt="" />
                   <div className="card_til">Convergent Communications</div>
@@ -116,13 +116,13 @@ function Login() {
               </div>
             </div>
           </div>
-          <div className="flex pb-5">
+        </div>
+        <div className="flex pt-117 mx-auto justify-center pb-10">
             <img className="w-10 h-10 mr-6" src={twitter} alt="" />
             <img className="w-10 h-10 mr-6" src={discord} alt="" />
             <img className="w-10 h-10 mr-6" src={media} alt="" />
             <img className="w-10 h-10" src={telegram} alt="" />
           </div>
-        </div>
       </div>
       <Modal show={accountModalShow} onClose={closeModal}>
         <Modal.Header>Choose Account</Modal.Header>

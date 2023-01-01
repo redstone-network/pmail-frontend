@@ -1,9 +1,10 @@
 import Axios from 'axios'
 
 const axios = Axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL,
+  baseURL: import.meta.env.VITE_STORAGE_URL,
   timeout: 100000,
   headers: {
+    'Access-Control-Request-Headers': '*',
     'Content-Type': 'application/json'
   }
 })

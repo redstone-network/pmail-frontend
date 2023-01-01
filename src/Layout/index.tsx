@@ -131,7 +131,7 @@ const Layout = (): JSX.Element => {
                     }}
                   >
                     <div className="flex items-center ">
-                      <img className="mx-4 h-5 w-5" src={item.icon} alt="" />
+                      <img className="mx-4 w-5" src={item.icon} alt="" />
                       <div>{item.name}</div>
                     </div>
                     {item.value ? (
@@ -157,7 +157,7 @@ const Layout = (): JSX.Element => {
               className="mb-10 flex cursor-pointer items-center"
             >
               <div className="mr-5 h-5 w-5">
-                <img src={logOut} alt="" />
+                <img className="w-5" src={logOut} alt="" />
               </div>
               <div className="text-textBlue">Log Out</div>
             </div>

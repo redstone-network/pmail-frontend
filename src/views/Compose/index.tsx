@@ -99,6 +99,7 @@ function Home(): JSX.Element {
         closeButton: false
       })
     } catch (e) {
+      setSending(false)
       toast.update(toastId.current, {
         render: 'send mail fail',
         type: toast.TYPE.ERROR,

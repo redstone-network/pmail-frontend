@@ -6,23 +6,27 @@ import { useAppSelector } from '@/hooks'
 
 function ShowMail(): JSX.Element {
   const { hash } = useParams()
+  const location = useLocation()
   const user = useAppSelector((state) => state.user)
   const [loading, setLoading] = useState(true)
   const [subject, setSubject] = useState('')
   const [mailBody, setMailBody] = useState('')
   const [fromAccount, setFromInfo] = useState('')
+  const [fromAddress, setFromAddress] = useState('')
   const [toAccount, setToAccount] = useState('')
   const [toAddress, setToAddress] = useState('')
   const [time, setTime] = useState('')
   async function fetchData() {
     const res = await getMailDetail(hash!)
     if (res) {
+      console.log(res)
       setSubject(res.subject)
       setMailBody(res.body)
       setTime(res.time)
       setFromInfo(res.fromName)
       setToAccount(res.toName)
       setToAddress(res.toAddress)
+      setFromAddress(res.fromAddress)
     }
     setLoading(false)
   }
@@ -58,11 +62,11 @@ function ShowMail(): JSX.Element {
                 <img src={Account} alt="" />
               </div>
               <div className="truncate">
-                <div className="text-textBlue">{fromAccount}</div>
+                <div className="text-textBlue">{  fromAccount ||  fromAddress}</div>
                 <div>
                   Send to{' '}
                   <span className="text-grayText">
-                    {toAddress === user.address ? 'Me' : toAccount || toAddress}
+                    {location.pathname.startsWith('/inbox') ? 'Me' :  toAccount ||  toAddress}
                   </span>
                 </div>
               </div>
