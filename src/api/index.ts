@@ -32,6 +32,12 @@ export interface MailDetail {
   hash: string
   timestampe: number
 }
+function getName(str:string): string {
+  if (typeof str === 'string') {
+    return /^=\?[\w|\W]+=\?=$/.test(str) ? '' : str
+  }
+  return ''
+}
 export function uploadFile<T>(
   filename: string,
   body: MailInfo
@@ -47,6 +53,10 @@ export async function downloadFile(
   name: string
 ) {
   const res = await Axios({
+    baseURL: import.meta.env.VITE_STORAGE_URL,
+    headers: {
+      'Access-Control-Request-Headers': '*',
+    },
     url: `/api/storage/raw/${hash}`,
     method: 'GET',
     responseType: 'blob',
@@ -58,6 +68,10 @@ export async function downloadFile(
 export async function getMailDetail(hash: string): Promise<MailDetail | null> {
   try {
     const obj: any = await request({
+      baseURL: import.meta.env.VITE_STORAGE_URL,
+      headers: {
+        'Access-Control-Request-Headers': '*',
+      },
       url: `/api/storage/raw/${hash}`,
       method: 'GET'
     })
@@ -96,10 +110,10 @@ export async function getMailDetail(hash: string): Promise<MailDetail | null> {
     if (size === 1) {
       mailDetail = Object.values(mailDetail)[0]
     }
-    const fromName = mailDetail.from[0][0].Name
-    const fromAddress = mailDetail.from[0][0].Address
-    const toName = mailDetail.to[0][0].Name
-    const toAddress = mailDetail.to[0][0].Address
+    const fromName = mailDetail.from[0][0].Name || getName(mailDetail.from[0][0].name)
+    const fromAddress = mailDetail.from[0][0].Address || getName(mailDetail.from[0][0].address)
+    const toName = mailDetail.to[0][0].Name || getName(mailDetail.to[0][0].name)
+    const toAddress = mailDetail.to[0][0].Address || getName(mailDetail.to[0][0].address)
     const time = new Date(mailDetail.timestampe).toDateString()
     return {
       fromName,
