@@ -9,9 +9,9 @@ import { sendMailBlock } from '@/api/substrate'
 import { useAppSelector } from '@/hooks'
 import { editorModules } from './Editor/editor'
 import { toast, Id } from 'react-toastify'
-import { RxFileText, RxTrash } from 'react-icons/rx'
 import { getAddressType, getMailType, TYPES_SHOW_NAME } from '@/utils/index'
-
+import drafts from '@/assets/icons/drafts-gray.png'
+import trash from '@/assets/icons/trash-gray.png'
 
 function Home(): JSX.Element {
   const user = useAppSelector((state) => state.user)
@@ -147,9 +147,11 @@ function Home(): JSX.Element {
                 }}
                 className="block w-full truncate rounded border border-none bg-white p-2.5 text-sm text-gray-900 focus:border-none focus:ring-white"
               />
-              {accountType && <div className="flex transition h-fit items-center font-sans bg-btnBlue text-white rounded px-2 py-0.5 p-1.5 text-base">
-                {accountType}
-              </div>}
+              {accountType && (
+                <div className="flex h-fit items-center rounded bg-btnBlue p-1.5 px-2 py-0.5 font-sans text-base text-white transition">
+                  {accountType}
+                </div>
+              )}
             </div>
             <div className="h-14 text-xs text-red-600 ">{tipText}</div>
             <div className="flex items-center border-b py-1">
@@ -195,15 +197,13 @@ function Home(): JSX.Element {
               onClick={submit}
               className="mr-3 flex items-center rounded bg-btnGary px-5 py-2 text-textBlack transition hover:bg-btnHoverGary"
             >
-              <RxFileText className="text-lg" />
-              Save draft
+              <img className="mr-2 h-5 w-5" src={drafts} alt="" /> Save draft
             </button>
             <button
               onClick={submit}
               className="flex items-center rounded bg-btnGary px-5 py-2 text-textBlack transition hover:bg-btnHoverGary"
             >
-              <RxTrash className="text-lg" />
-              Discard
+              <img className="mr-2 h-5 w-5" src={trash} alt="" /> Discard
             </button>
           </div>
         </div>

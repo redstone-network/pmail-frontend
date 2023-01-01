@@ -31,7 +31,7 @@ export default function Router() {
         <Route path="drafts" element={<Empty />} />
         <Route path="spam" element={<Empty />} />
         <Route path="trash" element={<Empty />} />
-        <Route path="contracts" element={<Contracts />} />
+        <Route path="contacts" element={<Contracts />} />
         <Route path="cloud" element={<Cloud />} />
       </Route>
       <Route path="*" element={<NotFund />} />

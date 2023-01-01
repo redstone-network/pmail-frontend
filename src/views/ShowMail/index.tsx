@@ -1,8 +1,9 @@
-import { BsReply, BsTrash } from 'react-icons/bs'
 import Account from '@/assets/account.png'
 import { getMailDetail } from '@/api/index'
 import { Spinner } from 'flowbite-react'
 import { useAppSelector } from '@/hooks'
+import replay from '@/assets/icons/reply-x2.png'
+import sent from '@/assets/icons/sent-g-x2.png'
 
 function ShowMail(): JSX.Element {
   const { hash } = useParams()
@@ -37,9 +38,9 @@ function ShowMail(): JSX.Element {
     return { __html: mailBody }
   }
   return (
-    <div className="flex flex-col w-full h-full p-4 overflow-scroll bg-white rounded-lg shadow">
+    <div className="flex h-full w-full flex-col overflow-scroll rounded-lg bg-white p-4 shadow">
       {loading ? (
-        <div className="flex items-center justify-center h-full text-center">
+        <div className="flex h-full items-center justify-center text-center">
           <Spinner color="purple"></Spinner>
           <span className="pl-3">Loading...</span>
         </div>
@@ -49,24 +50,28 @@ function ShowMail(): JSX.Element {
             <h5 className="text-xl font-semibold text-textBlack">{subject}</h5>
           </div>
           <div className="flex pt-4">
-            <button className="flex items-center justify-center w-20 h-8 btn">
-              <BsReply className="text-lg" /> Reply
+            <button className="btn flex h-8 items-center px-5 justify-center hover:bg-btnHoverGary">
+              <img className="mr-2 h-5 w-5" src={replay} alt="" /> Reply
             </button>
-            <button className="flex items-center justify-center w-20 h-8 bg-btnGary btn">
-              <BsTrash /> Delete
+            <button className="btn flex h-8 items-center px-5 justify-center bg-btnGary hover:bg-btnHoverGary">
+              <img className="mr-2 h-5 w-5" src={sent} alt="" /> Delete
             </button>
           </div>
-          <div className="flex items-end justify-between mb-5">
+          <div className="mb-5 flex items-end justify-between">
             <div className="flex items-center pt-2">
-              <div className="w-8 h-8 mr-3 rounded-full">
+              <div className="mr-3 h-8 w-8 rounded-full">
                 <img src={Account} alt="" />
               </div>
               <div className="truncate">
-                <div className="text-textBlue">{  fromAccount ||  fromAddress}</div>
+                <div className="text-textBlue">
+                  {fromAccount || fromAddress}
+                </div>
                 <div>
                   Send to{' '}
                   <span className="text-grayText">
-                    {location.pathname.startsWith('/inbox') ? 'Me' :  toAccount ||  toAddress}
+                    {location.pathname.startsWith('/inbox')
+                      ? 'Me'
+                      : toAccount || toAddress}
                   </span>
                 </div>
               </div>
@@ -75,7 +80,7 @@ function ShowMail(): JSX.Element {
           </div>
           <div
             dangerouslySetInnerHTML={createMarkup()}
-            className="px-6 py-5 rounded-md grow bg-bgGray"
+            className="grow rounded-md bg-bgGray px-6 py-5"
           ></div>
         </>
       )}

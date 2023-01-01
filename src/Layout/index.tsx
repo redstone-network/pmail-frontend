@@ -68,8 +68,8 @@ const Layout = (): JSX.Element => {
     },
     {
       icon: contacts,
-      name: 'Contracts',
-      href: '/contracts',
+      name: 'Contacts',
+      href: '/contacts',
       value: 0
     }
   ]
