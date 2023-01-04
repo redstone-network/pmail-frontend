@@ -104,7 +104,7 @@ function MailList({ type }: { type: Types }) {
                     {item.subject}
                   </div>
                   <div className="w-40 truncate shrink grow text-grayText">
-                    {item.toAddress}
+                    {type === Types.INBOX ? (item.fromName || item.fromAddress) : (item.toName|| item.toAddress)}
                   </div>
                   <div className="w-40 ml-8 text-textBlue shrink-0">
                     {item.time}

@@ -57,26 +57,28 @@ function ShowMail(): JSX.Element {
               <img className="mr-2 h-5 w-5" src={sent} alt="" /> Delete
             </button>
           </div>
-          <div className="mb-5 flex items-end justify-between">
+          <div className="mb-5 flex w-full items-end justify-between">
             <div className="flex items-center pt-2">
               <div className="mr-3 h-8 w-8 rounded-full">
                 <img src={Account} alt="" />
               </div>
-              <div className="truncate">
+              <div>
                 <div className="text-textBlue">
                   {fromAccount || fromAddress}
                 </div>
-                <div>
+                <div className="flex">
                   Send to{' '}
-                  <span className="text-grayText">
+                  <a title={location.pathname.startsWith('/inbox')
+                      ? 'Me'
+                      : toAccount || toAddress} className="text-grayText max-w-2xl px-2 truncate">
                     {location.pathname.startsWith('/inbox')
                       ? 'Me'
                       : toAccount || toAddress}
-                  </span>
+                  </a>
                 </div>
               </div>
             </div>
-            <div className="pt-2 pl-10 text-xs text-textBlack">{time}</div>
+            <div className="pt-2 pl-10 text-xs text-textBlack shrink-0">{time}</div>
           </div>
           <div
             dangerouslySetInnerHTML={createMarkup()}

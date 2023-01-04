@@ -32,11 +32,11 @@ export interface MailDetail {
   hash: string
   timestampe: number
 }
-function getName(str:string): string {
+function getInfo(str:string): string| undefined {
   if (typeof str === 'string') {
-    return /^=\?[\w|\W]+=\?=$/.test(str) ? '' : str
+    return /^=\?[\w|\W]+\?=$/.test(str) ? '' : str
   }
-  return ''
+  return
 }
 export function uploadFile<T>(
   filename: string,
@@ -63,52 +63,32 @@ export async function downloadFile(
   saveAs(blob, decodeURIComponent(name), { autoBom: true })
 
 }
+function getName(arr: {name: string, Name: string}[]): string {
+  const nameArr = arr.map(item => {
+    return { name: getInfo(item.name) || getInfo(item.Name) || '' }
+  })
+  return nameArr.filter(item => item.name).map(item => item.name).join(',')
+}
+
+function getAddress(arr: {address: string, Address: string}[]): string {
+  const nameArr = arr.map(item => {
+    return { address: getInfo(item.address) || getInfo(item.Address) || '' }
+  })
+  return nameArr.filter(item => item.address).map(item => item.address).join(',')
+}
+
 export async function getMailDetail(hash: string): Promise<MailDetail | null> {
   try {
-    const obj: any = await request({
+    const mailDetail: any = await request({
       baseURL: import.meta.env.VITE_STORAGE_URL,
       url: `/api/storage/raw/${hash}`,
       method: 'GET'
     })
 
-    function isPlainObject(input: any) {
-      return input && typeof input === 'object'
-    }
-
-    function propertyNamesToLowercase(obj: any): any {
-      const final: any = {}
-
-      // Iterate over key-value pairs of the root object 'obj'
-      for (const [key, value] of Object.entries(obj)) {
-        // Set the lowercased key in the 'final' object and use the original value if it's not an object
-        // else use the value returned by this function (recursive call).
-        final[key.toLowerCase()] = isPlainObject(value)
-          ? propertyNamesToLowercase(value)
-          : value
-
-        if (Array.isArray(value)) {
-          const arr: unknown[] = []
-          for (const item in value) {
-            const newItem = isPlainObject(item)
-              ? propertyNamesToLowercase(value)
-              : value
-            arr.push(newItem)
-          }
-          final[key.toLowerCase()] = arr
-        }
-      }
-      return final
-    }
-
-    let mailDetail = propertyNamesToLowercase(obj)
-    const size = Object.keys(mailDetail).length
-    if (size === 1) {
-      mailDetail = Object.values(mailDetail)[0]
-    }
-    const fromName = mailDetail.from[0][0].Name || getName(mailDetail.from[0][0].name)
-    const fromAddress = mailDetail.from[0][0].Address || getName(mailDetail.from[0][0].address)
-    const toName = mailDetail.to[0][0].Name || getName(mailDetail.to[0][0].name)
-    const toAddress = mailDetail.to[0][0].Address || getName(mailDetail.to[0][0].address)
+    const fromName = getName(mailDetail.from)
+    const fromAddress = getAddress(mailDetail.from)
+    const toName = getName(mailDetail.to)
+    const toAddress = getAddress(mailDetail.to)
     const time = new Date(mailDetail.timestampe).toDateString()
     return {
       fromName,
