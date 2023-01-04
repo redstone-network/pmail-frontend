@@ -9,13 +9,14 @@ import { sendMailBlock } from '@/api/substrate'
 import { useAppSelector } from '@/hooks'
 import { editorModules } from './Editor/editor'
 import { toast, Id } from 'react-toastify'
-import { getAddressType, getMailType, TYPES_SHOW_NAME } from '@/utils/index'
+import { getAddressType, getMailType } from '@/utils/index'
 import drafts from '@/assets/icons/drafts-gray.png'
 import trash from '@/assets/icons/trash-gray.png'
 import { AiOutlineClose } from 'react-icons/ai'
-import { Avatar, Popover, Tag } from 'antd'
+import { Avatar, Popover } from 'antd'
 import './index.css'
-import { MouseEvent } from 'react'
+import polkadot from '@assets/polkadot.png'
+import gmail from '@assets/gmail.png'
 
 interface DropItem {
   value: string
@@ -218,10 +219,11 @@ function Home(): JSX.Element {
                           <div className="cont_item">
                             <div className="h-6 w-6">
                               <Avatar
-                                size={24}
-                                style={{ backgroundColor: item.color, color: '#fff' }}
+                            size={24}
+                            src={item.tag === 'Gmail' ? gmail : item.tag === 'polkadot' ? polkadot: ''}
+                            style={(item.tag === 'Gmail' || item.tag === 'polkadot') ? { } : {backgroundColor: item.color, color: '#fff'}}
                               >
-                                {item.label}
+                                {(item.tag === 'Gmail' || item.tag === 'polkadot') ? '' : item.label}
                               </Avatar>
                             </div>
                             <div className="max-w-xs truncate px-1">
@@ -264,9 +266,10 @@ function Home(): JSX.Element {
                           <div>
                             <Avatar
                               size={24}
-                              style={{ backgroundColor: item.color, color: '#FFFFFF' }}
+                              src={item.tag === 'Gmail' ? gmail : item.tag === 'polkadot' ? polkadot: ''}
+                              style={(item.tag === 'Gmail' || item.tag === 'polkadot') ? { } : {backgroundColor: item.color, color: '#fff'}}
                             >
-                              {item.label}
+                                {(item.tag === 'Gmail' || item.tag === 'polkadot') ? '' : item.label}
                             </Avatar>
                           </div>
                           <div className="px-1">{item.value}</div>
