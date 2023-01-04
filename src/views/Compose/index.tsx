@@ -12,8 +12,28 @@ import { toast, Id } from 'react-toastify'
 import { getAddressType, getMailType, TYPES_SHOW_NAME } from '@/utils/index'
 import drafts from '@/assets/icons/drafts-gray.png'
 import trash from '@/assets/icons/trash-gray.png'
+import { AiOutlineClose } from 'react-icons/ai'
+import { Avatar, Popover, Tag } from 'antd'
+import './index.css'
+import { MouseEvent } from 'react'
 
+interface DropItem {
+  value: string
+  tag: string | null
+  label: string
+  type: string
+  key: number
+  color: TYPE_COLORS
+}
+enum TYPE_COLORS {
+  'web2' = '#55acee',
+  'Gmail' = '#cd201f',
+  'qq' = '#3b5999',
+  'ETH' = '#55acee',
+  'polkadot' = '#ff8c00'
+}
 function Home(): JSX.Element {
+  const inputEl = useRef<HTMLInputElement>(null)
   const user = useAppSelector((state) => state.user)
   const toastId = useRef<Id | null>(null)
   const [mailInfo, setMailInfo] = useState('')
@@ -21,25 +41,70 @@ function Home(): JSX.Element {
   const [subjectValue, setSubjectValue] = useState('')
   const [tipText, setTipText] = useState('')
   const [sending, setSending] = useState(false)
-  const [accountType, setAccountType] = useState('')
   const NoError = 'No recipients defined'
   const checkError = 'Invalid recipient found, please check your recipients'
+  const [showDrop, setShowDrop] = useState(false)
+  const [options, setOptions] = useState<DropItem[]>([])
+  const [userList, setUserList] = useState<DropItem[]>([])
+  const [showMod, setShowMod] = useState(false)
+  useEffect(() => {
+    if (!showMod) {
+      inputEl?.current?.focus()
+    }
+  }, [showMod])
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const type = getAddressType(value)
+    setToValue(value)
+    if (type) {
+      const mailType = getMailType(value)
+
+      setShowDrop(true)
+      setOptions([
+        {
+          value,
+          key: new Date().getTime(),
+          tag: mailType,
+          label: mailType?.slice(0, 1).toUpperCase() || 'M',
+          type,
+          color: TYPE_COLORS[mailType!]
+        }
+      ])
+    } else {
+      setShowDrop(false)
+    }
+  }
+
+  const onFocus = () => {
+    setShowMod(false)
+    setToValue('')
+    setShowDrop(false)
+    setOptions([])
+  }
+  const onBlur = () => {
+    console.log(11)
+  }
+  const choseItem = (e: React.ChangeEvent<HTMLDivElement>, value: DropItem) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setShowDrop(false)
+    setToValue('')
+    inputEl?.current?.focus()
+    setUserList([...userList, value])
+  }
+  const deleteItem = (
+    e: React.ChangeEvent<HTMLDivElement>,
+    value: DropItem
+  ) => {
+    e.preventDefault()
+    const list = JSON.parse(JSON.stringify(userList))
+    setUserList(list.filter((item: { key: number }) => item.key !== value.key))
+  }
 
   const submit = async () => {
-    if (toValue === '') {
+    if (userList.length === 0) {
       setTipText(NoError)
       toast.error(NoError, {
-        autoClose: 2000,
-        isLoading: false,
-        pauseOnFocusLoss: false,
-        hideProgressBar: true,
-        closeButton: false
-      })
-      return
-    }
-    if (getAddressType(toValue) === null) {
-      setTipText(checkError)
-      toast.error(checkError, {
         autoClose: 2000,
         isLoading: false,
         pauseOnFocusLoss: false,
@@ -64,12 +129,10 @@ function Home(): JSX.Element {
           Address: user.address
         }
       ],
-      to: [
-        {
-          Name: '',
-          Address: toValue
-        }
-      ],
+      to: userList.map(item => ( {
+        Name: '',
+        Address: item.value
+      })),
       date: now.toDateString(),
       timestampe: now.getTime()
     }
@@ -79,11 +142,13 @@ function Home(): JSX.Element {
       if (code === 0 && data) {
         const timestamp = new Date().getTime()
         const storeHash = data
-        const type = getAddressType(toValue)!
-        await sendMailBlock(
+        const toList = userList.map(item => (
           {
-            [type]: toValue
-          },
+            [item.type]: item.value
+          }
+        ))
+        await sendMailBlock(
+          toList,
           timestamp,
           storeHash
         )
@@ -120,38 +185,102 @@ function Home(): JSX.Element {
             <div className="flex items-center border-b py-1">
               <label
                 htmlFor="to"
-                className="block text-base font-bold text-black"
+                className="block text-base font-bold text-textBlack"
               >
                 To:
               </label>
-              <input
-                type="text"
-                id="to"
-                placeholder="Recipient"
-                autoComplete="off"
-                required
-                value={toValue}
-                onChange={(e) => {
-                  setToValue(e.target.value)
-                  const type = getAddressType(e.target.value)
-                  const mailType = getMailType(e.target.value)
-                  if (mailType) {
-                    setAccountType(mailType)
-                    return
-                  }
-                  if (type) {
-                    setAccountType(TYPES_SHOW_NAME[type])
-                  } else {
-                    setAccountType('')
-                  }
-                }}
-                className="block w-full truncate rounded border border-none bg-white p-2.5 text-sm text-gray-900 focus:border-none focus:ring-white"
-              />
-              {accountType && (
+              {showMod && userList.length ? (
+                <div
+                  onClick={() => {
+                    setShowMod(false)
+                  }}
+                  className="flex min-h-35 min-w-full flex-grow flex-wrap items-center"
+                >
+                  {userList.map((item) => (
+                    <>
+                      <span className="px-1" key={item.key}>
+                        {item.value}
+                      </span>
+                      ;
+                    </>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex flex-wrap">
+                {userList.map((item) => (
+                      <Popover
+                        className="ml-4"
+                        placement="topLeft"
+                        key={item.key}
+                        content={<p>{item.value}</p>}
+                      >
+                        <div className="flex">
+                          <div className="cont_item">
+                            <div className="h-6 w-6">
+                              <Avatar
+                                size={24}
+                                style={{ backgroundColor: item.color, color: '#fff' }}
+                              >
+                                {item.label}
+                              </Avatar>
+                            </div>
+                            <div className="max-w-xs truncate px-1">
+                              {item.value}
+                            </div>
+                            <div>
+                              <AiOutlineClose
+                                onClick={(e) => deleteItem(e, item)}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </Popover>
+                    ))}
+                  <div className="relative flex-grow">
+                    <input
+                      type="text"
+                        id="to"
+                        style={{ minWidth: '200px' }}
+                      placeholder="Recipient"
+                      autoComplete="off"
+                      required
+                      ref={inputEl}
+                      value={toValue}
+                      onBlur={onBlur}
+                      onFocus={onFocus}
+                      onChange={onChange}
+                      className="block w-full truncate rounded border border-none bg-white p-2.5 text-sm text-gray-900 focus:border-none focus:ring-white"
+                    />
+                    <div
+                      style={{ display: showDrop ? 'block' : 'none' }}
+                      className="absolute z-10 translate-y-1 translate-x-4 rounded bg-white py-2	shadow-3xl transition-all"
+                    >
+                      {options.map((item) => (
+                        <div
+                          key={item.key}
+                          onClick={(e) => choseItem(e, item)}
+                          className="flex cursor-pointer items-center bg-bgGray py-2 px-1"
+                        >
+                          <div>
+                            <Avatar
+                              size={24}
+                              style={{ backgroundColor: item.color, color: '#FFFFFF' }}
+                            >
+                              {item.label}
+                            </Avatar>
+                          </div>
+                          <div className="px-1">{item.value}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* {accountType && (
                 <div className="flex h-fit items-center rounded bg-btnBlue p-1.5 px-2 py-0.5 font-sans text-base text-white transition">
                   {accountType}
                 </div>
-              )}
+              )} */}
             </div>
             <div className="h-14 text-xs text-red-600 ">{tipText}</div>
             <div className="flex items-center border-b py-1">
@@ -167,6 +296,7 @@ function Home(): JSX.Element {
                 placeholder="Message Subject"
                 autoComplete="off"
                 value={subjectValue}
+                onFocus={() => setShowMod(true)}
                 onChange={(e) => {
                   setSubjectValue(e.target.value)
                 }}

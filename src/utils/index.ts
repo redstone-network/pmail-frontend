@@ -8,7 +8,7 @@ export enum TYPES_SHOW_NAME {
   'gmail' = 'Gmail',
   'qq' = 'qq',
   'ETHAddr' = 'ETH',
-  'SubAddr' = 'Substrate'
+  'SubAddr' = 'polkadot'
 }
 export function getAddressType(address: string): TYPES | null {
   if (/^5\w{47}$/.test(address)) {
@@ -22,7 +22,14 @@ export function getAddressType(address: string): TYPES | null {
   }
 }
 export function getMailType(address: string): TYPES_SHOW_NAME | null {
-  if (/^\w+([-+.]\w+)*@(\w+([-.]\w+)*)\.\w+([-.]\w+)*$/.test(address)) {
+  if (getAddressType(address) === TYPES.SubAddr) {
+    return TYPES_SHOW_NAME['SubAddr']
+  }
+  if (getAddressType(address) === TYPES.ETHAddr) {
+    return TYPES_SHOW_NAME['ETHAddr']
+  }
+  if (getAddressType(address) === TYPES.NormalAddr)
+ {
     const execRes = /^\w+([-+.]\w+)*@(\w+([-.]\w+)*)\.\w+([-.]\w+)*$/.exec(address)
     const mailType = execRes?.[2] ?? null
     if (mailType && mailType.toLowerCase() === 'gmail') {
@@ -31,7 +38,7 @@ export function getMailType(address: string): TYPES_SHOW_NAME | null {
     if (mailType && mailType.toLowerCase() === 'qq') {
       return TYPES_SHOW_NAME['qq']
     }
-    return null
+    return TYPES_SHOW_NAME['NormalAddr']
   }
   return null
 }

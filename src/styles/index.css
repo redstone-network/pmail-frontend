@@ -41,3 +41,6 @@
 .card_desc {
   @apply px-2 font-sans text-base leading-5 text-center;
 }
+.cont_item {
+  @apply rounded-full items-center justify-center flex text-sm pr-2 pl-1 py-0.5 text-blackText hover:text-textBlack transition cursor-pointer border border-gray-300 hover:border-textBlack;
+}

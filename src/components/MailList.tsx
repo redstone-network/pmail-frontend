@@ -40,8 +40,14 @@ function MailList({ type }: { type: Types }) {
       }
       if (data && data?.mails) {
         const { nodes, totalCount } = data.mails
+        const tepm: string[] = []
+        nodes.forEach((node) => {
+          if (!tepm.includes(node.hash)) {
+            tepm.push(node.hash)
+          }
+        })
         const resDetails = await Promise.all(
-          nodes.map((node) => fetchDetail(node.hash))
+          tepm.map((node) => fetchDetail(node))
         )
         const res = [...mailListData, ...resDetails]
         setMailListData(res)

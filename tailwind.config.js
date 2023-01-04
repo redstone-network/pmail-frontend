@@ -43,18 +43,25 @@ module.exports = {
       50: ['50px', '50px']
     },
     extend: {
+      minHeight: {
+       '35': '35px',
+      },
       spacing: {
         14: '14px',
         30: '30px',
         256: '256px',
         117: '117px',
         236: '236px',
+        35: '35px',
         50: '50px',
         845: '845px',
         363: '363px',
         196: '196px',
         188: '188px',
         178: '178px'
+      },
+      boxShadow: {
+       '3xl': '0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)',
       },
       backgroundImage: {
         'login-bg': "url('/src/assets/bg.png')"

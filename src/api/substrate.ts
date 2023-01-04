@@ -86,7 +86,7 @@ export async function doSetAlias(accountObj: any, alias: string) {
   })
 }
 export async function sendMailBlock(
-  MailAddress: { [key: string]: string },
+  MailAddress: { [key: string]: string }[],
   uint: number,
   vec: string
 ) {
